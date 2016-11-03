@@ -1,0 +1,1889 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">The Reporting Services Execution Service enables report execution</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices">
+      <s:element name="ListSecureMethods">
+        <s:complexType />
+      </s:element>
+      <s:element name="ListSecureMethodsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListSecureMethodsResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="TrustedUserHeader" type="tns:TrustedUserHeader" />
+      <s:complexType name="TrustedUserHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserToken" type="s:base64Binary" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="ServerInfoHeader" type="tns:ServerInfoHeader" />
+      <s:complexType name="ServerInfoHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ReportServerVersionNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReportServerEdition" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReportServerVersion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReportServerDateTime" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="LoadReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Report" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="HistoryID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ExecutionInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="HasSnapshot" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="NeedsProcessing" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="AllowQueryExecution" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="CredentialsRequired" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ParametersRequired" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExpirationDateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExecutionDateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="NumPages" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Parameters" type="tns:ArrayOfReportParameter" />
+          <s:element minOccurs="0" maxOccurs="1" name="DataSourcePrompts" type="tns:ArrayOfDataSourcePrompt" />
+          <s:element minOccurs="1" maxOccurs="1" name="HasDocumentMap" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExecutionID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReportPath" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="HistoryID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReportPageSettings" type="tns:PageSettings" />
+          <s:element minOccurs="1" maxOccurs="1" name="AutoRefreshInterval" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfReportParameter">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ReportParameter" nillable="true" type="tns:ReportParameter" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ReportParameter">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="tns:ParameterTypeEnum" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nullable" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="AllowBlank" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="MultiValue" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="QueryParameter" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Prompt" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PromptUser" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Dependencies" type="tns:ArrayOfString1" />
+          <s:element minOccurs="0" maxOccurs="1" name="ValidValuesQueryBased" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ValidValues" type="tns:ArrayOfValidValue" />
+          <s:element minOccurs="0" maxOccurs="1" name="DefaultValuesQueryBased" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="DefaultValues" type="tns:ArrayOfString2" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="tns:ParameterStateEnum" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ParameterTypeEnum">
+        <s:restriction base="s:string">
+          <s:enumeration value="Boolean" />
+          <s:enumeration value="DateTime" />
+          <s:enumeration value="Integer" />
+          <s:enumeration value="Float" />
+          <s:enumeration value="String" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfString1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Dependency" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfValidValue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ValidValue" nillable="true" type="tns:ValidValue" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ValidValue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Label" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString2">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ParameterStateEnum">
+        <s:restriction base="s:string">
+          <s:enumeration value="HasValidValue" />
+          <s:enumeration value="MissingValidValue" />
+          <s:enumeration value="HasOutstandingDependencies" />
+          <s:enumeration value="DynamicValuesUnavailable" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfDataSourcePrompt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DataSourcePrompt" nillable="true" type="tns:DataSourcePrompt" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DataSourcePrompt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DataSourceID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Prompt" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PageSettings">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaperSize" type="tns:ReportPaperSize" />
+          <s:element minOccurs="0" maxOccurs="1" name="Margins" type="tns:ReportMargins" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ReportPaperSize">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ReportMargins">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Top" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Bottom" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Left" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Right" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ExecutionHeader" type="tns:ExecutionHeader" />
+      <s:complexType name="ExecutionHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExecutionID" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="LoadReport2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Report" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="HistoryID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadReport2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ExecutionInfo2">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ExecutionInfo">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PageCountMode" type="tns:PageCountMode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="PageCountMode">
+        <s:restriction base="s:string">
+          <s:enumeration value="Actual" />
+          <s:enumeration value="Estimate" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="LoadReportDefinition">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Definition" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadReportDefinitionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo" />
+            <s:element minOccurs="0" maxOccurs="1" name="warnings" type="tns:ArrayOfWarning" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfWarning">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Warning" nillable="true" type="tns:Warning" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Warning">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Severity" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ObjectName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ObjectType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LoadReportDefinition2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Definition" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadReportDefinition2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo2" />
+            <s:element minOccurs="0" maxOccurs="1" name="warnings" type="tns:ArrayOfWarning" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetExecutionCredentials">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Credentials" type="tns:ArrayOfDataSourceCredentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfDataSourceCredentials">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DataSourceCredentials" nillable="true" type="tns:DataSourceCredentials" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DataSourceCredentials">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DataSourceName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetExecutionCredentialsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetExecutionCredentials2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Credentials" type="tns:ArrayOfDataSourceCredentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetExecutionCredentials2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetExecutionParameters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Parameters" type="tns:ArrayOfParameterValue" />
+            <s:element minOccurs="0" maxOccurs="1" name="ParameterLanguage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfParameterValue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ParameterValue" nillable="true" type="tns:ParameterValue" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ParameterValue">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ParameterValueOrFieldReference">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Label" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ParameterValueOrFieldReference" />
+      <s:element name="SetExecutionParametersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetExecutionParameters2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Parameters" type="tns:ArrayOfParameterValue" />
+            <s:element minOccurs="0" maxOccurs="1" name="ParameterLanguage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetExecutionParameters2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResetExecution">
+        <s:complexType />
+      </s:element>
+      <s:element name="ResetExecutionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResetExecution2">
+        <s:complexType />
+      </s:element>
+      <s:element name="ResetExecution2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Render">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Format" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DeviceInfo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RenderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="Extension" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MimeType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Encoding" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Warnings" type="tns:ArrayOfWarning" />
+            <s:element minOccurs="0" maxOccurs="1" name="StreamIds" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Render2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Format" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DeviceInfo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="PaginationMode" type="tns:PageCountMode" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Render2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="Extension" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MimeType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Encoding" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Warnings" type="tns:ArrayOfWarning" />
+            <s:element minOccurs="0" maxOccurs="1" name="StreamIds" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RenderStream">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Format" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StreamID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DeviceInfo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RenderStreamResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="Encoding" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MimeType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExecutionInfo">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetExecutionInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExecutionInfo2">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetExecutionInfo2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="executionInfo" type="tns:ExecutionInfo2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDocumentMap">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDocumentMapResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="result" type="tns:DocumentMapNode" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DocumentMapNode">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Label" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Children" type="tns:ArrayOfDocumentMapNode" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDocumentMapNode">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DocumentMapNode" nillable="true" type="tns:DocumentMapNode" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LoadDrillthroughTarget">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DrillthroughID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadDrillthroughTargetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecutionInfo" type="tns:ExecutionInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadDrillthroughTarget2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DrillthroughID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadDrillthroughTarget2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecutionInfo" type="tns:ExecutionInfo2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ToggleItem">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ToggleID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ToggleItemResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Found" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NavigateDocumentMap">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DocMapID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NavigateDocumentMapResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NavigateBookmark">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BookmarkID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NavigateBookmarkResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="UniqueName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindString">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StartPage" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndPage" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="FindValue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindStringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Sort">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SortItem" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Direction" type="tns:SortDirectionEnum" />
+            <s:element minOccurs="1" maxOccurs="1" name="Clear" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="SortDirectionEnum">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="Ascending" />
+          <s:enumeration value="Descending" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SortResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReportItem" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="NumPages" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Sort2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SortItem" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Direction" type="tns:SortDirectionEnum" />
+            <s:element minOccurs="1" maxOccurs="1" name="Clear" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="PaginationMode" type="tns:PageCountMode" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Sort2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReportItem" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ExecutionInfo" type="tns:ExecutionInfo2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRenderResource">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Format" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DeviceInfo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRenderResourceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="MimeType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListRenderingExtensions">
+        <s:complexType />
+      </s:element>
+      <s:element name="ListRenderingExtensionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Extensions" type="tns:ArrayOfExtension" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfExtension">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Extension" nillable="true" type="tns:Extension" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Extension">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ExtensionType" type="tns:ExtensionTypeEnum" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocalizedName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Visible" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsModelGenerationSupported" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ExtensionTypeEnum">
+        <s:restriction base="s:string">
+          <s:enumeration value="Delivery" />
+          <s:enumeration value="Render" />
+          <s:enumeration value="Data" />
+          <s:enumeration value="All" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="LogonUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authority" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogonUserResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Logoff">
+        <s:complexType />
+      </s:element>
+      <s:element name="LogoffResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ListSecureMethodsSoapIn">
+    <wsdl:part name="parameters" element="tns:ListSecureMethods" />
+  </wsdl:message>
+  <wsdl:message name="ListSecureMethodsSoapOut">
+    <wsdl:part name="parameters" element="tns:ListSecureMethodsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListSecureMethodsServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="ListSecureMethodsTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadReport" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReport2SoapIn">
+    <wsdl:part name="parameters" element="tns:LoadReport2" />
+  </wsdl:message>
+  <wsdl:message name="LoadReport2SoapOut">
+    <wsdl:part name="parameters" element="tns:LoadReport2Response" />
+  </wsdl:message>
+  <wsdl:message name="LoadReport2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReport2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReport2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinitionSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadReportDefinition" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinitionSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadReportDefinitionResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinitionExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinitionServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinitionTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinition2SoapIn">
+    <wsdl:part name="parameters" element="tns:LoadReportDefinition2" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinition2SoapOut">
+    <wsdl:part name="parameters" element="tns:LoadReportDefinition2Response" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinition2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinition2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadReportDefinition2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentialsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetExecutionCredentials" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentialsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetExecutionCredentialsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentialsExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentialsServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentialsTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentials2SoapIn">
+    <wsdl:part name="parameters" element="tns:SetExecutionCredentials2" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentials2SoapOut">
+    <wsdl:part name="parameters" element="tns:SetExecutionCredentials2Response" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentials2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentials2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionCredentials2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParametersSoapIn">
+    <wsdl:part name="parameters" element="tns:SetExecutionParameters" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParametersSoapOut">
+    <wsdl:part name="parameters" element="tns:SetExecutionParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParametersExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParametersServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParametersTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParameters2SoapIn">
+    <wsdl:part name="parameters" element="tns:SetExecutionParameters2" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParameters2SoapOut">
+    <wsdl:part name="parameters" element="tns:SetExecutionParameters2Response" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParameters2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParameters2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetExecutionParameters2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecutionSoapIn">
+    <wsdl:part name="parameters" element="tns:ResetExecution" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecutionSoapOut">
+    <wsdl:part name="parameters" element="tns:ResetExecutionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecutionExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecutionServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecutionTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecution2SoapIn">
+    <wsdl:part name="parameters" element="tns:ResetExecution2" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecution2SoapOut">
+    <wsdl:part name="parameters" element="tns:ResetExecution2Response" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecution2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecution2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="ResetExecution2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="RenderSoapIn">
+    <wsdl:part name="parameters" element="tns:Render" />
+  </wsdl:message>
+  <wsdl:message name="RenderSoapOut">
+    <wsdl:part name="parameters" element="tns:RenderResponse" />
+  </wsdl:message>
+  <wsdl:message name="RenderExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="RenderServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="RenderTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="Render2SoapIn">
+    <wsdl:part name="parameters" element="tns:Render2" />
+  </wsdl:message>
+  <wsdl:message name="Render2SoapOut">
+    <wsdl:part name="parameters" element="tns:Render2Response" />
+  </wsdl:message>
+  <wsdl:message name="Render2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="Render2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="Render2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="RenderStreamSoapIn">
+    <wsdl:part name="parameters" element="tns:RenderStream" />
+  </wsdl:message>
+  <wsdl:message name="RenderStreamSoapOut">
+    <wsdl:part name="parameters" element="tns:RenderStreamResponse" />
+  </wsdl:message>
+  <wsdl:message name="RenderStreamExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="RenderStreamServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="RenderStreamTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetExecutionInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetExecutionInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfoExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfoServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfoTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfo2SoapIn">
+    <wsdl:part name="parameters" element="tns:GetExecutionInfo2" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfo2SoapOut">
+    <wsdl:part name="parameters" element="tns:GetExecutionInfo2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfo2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfo2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetExecutionInfo2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentMapSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDocumentMap" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentMapSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDocumentMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentMapExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentMapServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentMapTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTargetSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadDrillthroughTarget" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTargetSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadDrillthroughTargetResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTargetExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTargetServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTargetTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTarget2SoapIn">
+    <wsdl:part name="parameters" element="tns:LoadDrillthroughTarget2" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTarget2SoapOut">
+    <wsdl:part name="parameters" element="tns:LoadDrillthroughTarget2Response" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTarget2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTarget2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="LoadDrillthroughTarget2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="ToggleItemSoapIn">
+    <wsdl:part name="parameters" element="tns:ToggleItem" />
+  </wsdl:message>
+  <wsdl:message name="ToggleItemSoapOut">
+    <wsdl:part name="parameters" element="tns:ToggleItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ToggleItemExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="ToggleItemServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="ToggleItemTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="NavigateDocumentMapSoapIn">
+    <wsdl:part name="parameters" element="tns:NavigateDocumentMap" />
+  </wsdl:message>
+  <wsdl:message name="NavigateDocumentMapSoapOut">
+    <wsdl:part name="parameters" element="tns:NavigateDocumentMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="NavigateDocumentMapExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="NavigateDocumentMapServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="NavigateDocumentMapTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="NavigateBookmarkSoapIn">
+    <wsdl:part name="parameters" element="tns:NavigateBookmark" />
+  </wsdl:message>
+  <wsdl:message name="NavigateBookmarkSoapOut">
+    <wsdl:part name="parameters" element="tns:NavigateBookmarkResponse" />
+  </wsdl:message>
+  <wsdl:message name="NavigateBookmarkExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="NavigateBookmarkServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="NavigateBookmarkTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="FindStringSoapIn">
+    <wsdl:part name="parameters" element="tns:FindString" />
+  </wsdl:message>
+  <wsdl:message name="FindStringSoapOut">
+    <wsdl:part name="parameters" element="tns:FindStringResponse" />
+  </wsdl:message>
+  <wsdl:message name="FindStringExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="FindStringServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="FindStringTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="SortSoapIn">
+    <wsdl:part name="parameters" element="tns:Sort" />
+  </wsdl:message>
+  <wsdl:message name="SortSoapOut">
+    <wsdl:part name="parameters" element="tns:SortResponse" />
+  </wsdl:message>
+  <wsdl:message name="SortExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="SortServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="SortTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="Sort2SoapIn">
+    <wsdl:part name="parameters" element="tns:Sort2" />
+  </wsdl:message>
+  <wsdl:message name="Sort2SoapOut">
+    <wsdl:part name="parameters" element="tns:Sort2Response" />
+  </wsdl:message>
+  <wsdl:message name="Sort2ExecutionHeader">
+    <wsdl:part name="ExecutionHeader" element="tns:ExecutionHeader" />
+  </wsdl:message>
+  <wsdl:message name="Sort2ServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="Sort2TrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetRenderResourceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRenderResource" />
+  </wsdl:message>
+  <wsdl:message name="GetRenderResourceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRenderResourceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRenderResourceServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetRenderResourceTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="ListRenderingExtensionsSoapIn">
+    <wsdl:part name="parameters" element="tns:ListRenderingExtensions" />
+  </wsdl:message>
+  <wsdl:message name="ListRenderingExtensionsSoapOut">
+    <wsdl:part name="parameters" element="tns:ListRenderingExtensionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListRenderingExtensionsServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="ListRenderingExtensionsTrustedUserHeader">
+    <wsdl:part name="TrustedUserHeader" element="tns:TrustedUserHeader" />
+  </wsdl:message>
+  <wsdl:message name="LogonUserSoapIn">
+    <wsdl:part name="parameters" element="tns:LogonUser" />
+  </wsdl:message>
+  <wsdl:message name="LogonUserSoapOut">
+    <wsdl:part name="parameters" element="tns:LogonUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="LogonUserServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:message name="LogoffSoapIn">
+    <wsdl:part name="parameters" element="tns:Logoff" />
+  </wsdl:message>
+  <wsdl:message name="LogoffSoapOut">
+    <wsdl:part name="parameters" element="tns:LogoffResponse" />
+  </wsdl:message>
+  <wsdl:message name="LogoffServerInfoHeader">
+    <wsdl:part name="ServerInfoHeader" element="tns:ServerInfoHeader" />
+  </wsdl:message>
+  <wsdl:portType name="ReportExecutionServiceSoap">
+    <wsdl:operation name="ListSecureMethods">
+      <wsdl:input message="tns:ListSecureMethodsSoapIn" />
+      <wsdl:output message="tns:ListSecureMethodsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadReport">
+      <wsdl:input message="tns:LoadReportSoapIn" />
+      <wsdl:output message="tns:LoadReportSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadReport2">
+      <wsdl:input message="tns:LoadReport2SoapIn" />
+      <wsdl:output message="tns:LoadReport2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadReportDefinition">
+      <wsdl:input message="tns:LoadReportDefinitionSoapIn" />
+      <wsdl:output message="tns:LoadReportDefinitionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadReportDefinition2">
+      <wsdl:input message="tns:LoadReportDefinition2SoapIn" />
+      <wsdl:output message="tns:LoadReportDefinition2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionCredentials">
+      <wsdl:input message="tns:SetExecutionCredentialsSoapIn" />
+      <wsdl:output message="tns:SetExecutionCredentialsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionCredentials2">
+      <wsdl:input message="tns:SetExecutionCredentials2SoapIn" />
+      <wsdl:output message="tns:SetExecutionCredentials2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionParameters">
+      <wsdl:input message="tns:SetExecutionParametersSoapIn" />
+      <wsdl:output message="tns:SetExecutionParametersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionParameters2">
+      <wsdl:input message="tns:SetExecutionParameters2SoapIn" />
+      <wsdl:output message="tns:SetExecutionParameters2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetExecution">
+      <wsdl:input message="tns:ResetExecutionSoapIn" />
+      <wsdl:output message="tns:ResetExecutionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetExecution2">
+      <wsdl:input message="tns:ResetExecution2SoapIn" />
+      <wsdl:output message="tns:ResetExecution2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Render">
+      <wsdl:input message="tns:RenderSoapIn" />
+      <wsdl:output message="tns:RenderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Render2">
+      <wsdl:input message="tns:Render2SoapIn" />
+      <wsdl:output message="tns:Render2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderStream">
+      <wsdl:input message="tns:RenderStreamSoapIn" />
+      <wsdl:output message="tns:RenderStreamSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExecutionInfo">
+      <wsdl:input message="tns:GetExecutionInfoSoapIn" />
+      <wsdl:output message="tns:GetExecutionInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExecutionInfo2">
+      <wsdl:input message="tns:GetExecutionInfo2SoapIn" />
+      <wsdl:output message="tns:GetExecutionInfo2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentMap">
+      <wsdl:input message="tns:GetDocumentMapSoapIn" />
+      <wsdl:output message="tns:GetDocumentMapSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadDrillthroughTarget">
+      <wsdl:input message="tns:LoadDrillthroughTargetSoapIn" />
+      <wsdl:output message="tns:LoadDrillthroughTargetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadDrillthroughTarget2">
+      <wsdl:input message="tns:LoadDrillthroughTarget2SoapIn" />
+      <wsdl:output message="tns:LoadDrillthroughTarget2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ToggleItem">
+      <wsdl:input message="tns:ToggleItemSoapIn" />
+      <wsdl:output message="tns:ToggleItemSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NavigateDocumentMap">
+      <wsdl:input message="tns:NavigateDocumentMapSoapIn" />
+      <wsdl:output message="tns:NavigateDocumentMapSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NavigateBookmark">
+      <wsdl:input message="tns:NavigateBookmarkSoapIn" />
+      <wsdl:output message="tns:NavigateBookmarkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindString">
+      <wsdl:input message="tns:FindStringSoapIn" />
+      <wsdl:output message="tns:FindStringSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Sort">
+      <wsdl:input message="tns:SortSoapIn" />
+      <wsdl:output message="tns:SortSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Sort2">
+      <wsdl:input message="tns:Sort2SoapIn" />
+      <wsdl:output message="tns:Sort2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRenderResource">
+      <wsdl:input message="tns:GetRenderResourceSoapIn" />
+      <wsdl:output message="tns:GetRenderResourceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListRenderingExtensions">
+      <wsdl:input message="tns:ListRenderingExtensionsSoapIn" />
+      <wsdl:output message="tns:ListRenderingExtensionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LogonUser">
+      <wsdl:input message="tns:LogonUserSoapIn" />
+      <wsdl:output message="tns:LogonUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Logoff">
+      <wsdl:input message="tns:LogoffSoapIn" />
+      <wsdl:output message="tns:LogoffSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ReportExecutionServiceSoap" type="tns:ReportExecutionServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListSecureMethods">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ListSecureMethods" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ListSecureMethodsTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ListSecureMethodsServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadReport">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadReport" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadReportTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadReportExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:LoadReportServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadReport2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadReport2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadReport2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadReport2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:LoadReport2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadReportDefinition">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadReportDefinition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadReportDefinitionTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadReportDefinitionExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:LoadReportDefinitionServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadReportDefinition2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadReportDefinition2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadReportDefinition2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadReportDefinition2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:LoadReportDefinition2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionCredentials">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/SetExecutionCredentials" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExecutionCredentialsExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:SetExecutionCredentialsTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExecutionCredentialsServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionCredentials2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/SetExecutionCredentials2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExecutionCredentials2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:SetExecutionCredentials2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExecutionCredentials2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionParameters">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/SetExecutionParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExecutionParametersExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:SetExecutionParametersTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExecutionParametersServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionParameters2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/SetExecutionParameters2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExecutionParameters2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:SetExecutionParameters2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExecutionParameters2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetExecution">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ResetExecution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ResetExecutionExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:ResetExecutionTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ResetExecutionServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetExecution2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ResetExecution2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ResetExecution2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:ResetExecution2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ResetExecution2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Render">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Render" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RenderExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:RenderTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:RenderServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Render2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Render2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:Render2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:Render2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:Render2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderStream">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/RenderStream" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RenderStreamExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:RenderStreamTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:RenderStreamServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExecutionInfo">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/GetExecutionInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetExecutionInfoExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:GetExecutionInfoTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetExecutionInfoServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExecutionInfo2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/GetExecutionInfo2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetExecutionInfo2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:GetExecutionInfo2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetExecutionInfo2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentMap">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/GetDocumentMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetDocumentMapExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:GetDocumentMapTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetDocumentMapServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadDrillthroughTarget">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadDrillthroughTarget" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadDrillthroughTargetExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:LoadDrillthroughTargetTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadDrillthroughTargetExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:LoadDrillthroughTargetServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadDrillthroughTarget2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadDrillthroughTarget2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadDrillthroughTarget2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:LoadDrillthroughTarget2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoadDrillthroughTarget2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:LoadDrillthroughTarget2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ToggleItem">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ToggleItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ToggleItemExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:ToggleItemTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ToggleItemServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NavigateDocumentMap">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/NavigateDocumentMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:NavigateDocumentMapExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:NavigateDocumentMapTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:NavigateDocumentMapServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NavigateBookmark">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/NavigateBookmark" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:NavigateBookmarkExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:NavigateBookmarkTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:NavigateBookmarkServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindString">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/FindString" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:FindStringExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:FindStringTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:FindStringServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sort">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Sort" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SortExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:SortTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:SortServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sort2">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Sort2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:Sort2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap:header message="tns:Sort2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:Sort2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRenderResource">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/GetRenderResource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetRenderResourceTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetRenderResourceServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRenderingExtensions">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ListRenderingExtensions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ListRenderingExtensionsTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ListRenderingExtensionsServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogonUser">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LogonUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:LogonUserServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logoff">
+      <soap:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Logoff" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:LogoffServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ReportExecutionServiceSoap12" type="tns:ReportExecutionServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListSecureMethods">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ListSecureMethods" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ListSecureMethodsTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ListSecureMethodsServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadReport">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadReport" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadReportTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadReportExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:LoadReportServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadReport2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadReport2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadReport2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadReport2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:LoadReport2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadReportDefinition">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadReportDefinition" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadReportDefinitionTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadReportDefinitionExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:LoadReportDefinitionServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadReportDefinition2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadReportDefinition2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadReportDefinition2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadReportDefinition2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:LoadReportDefinition2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionCredentials">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/SetExecutionCredentials" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExecutionCredentialsExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:SetExecutionCredentialsTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExecutionCredentialsServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionCredentials2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/SetExecutionCredentials2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExecutionCredentials2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:SetExecutionCredentials2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExecutionCredentials2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionParameters">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/SetExecutionParameters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExecutionParametersExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:SetExecutionParametersTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExecutionParametersServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExecutionParameters2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/SetExecutionParameters2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExecutionParameters2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:SetExecutionParameters2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExecutionParameters2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetExecution">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ResetExecution" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ResetExecutionExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:ResetExecutionTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ResetExecutionServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetExecution2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ResetExecution2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ResetExecution2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:ResetExecution2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ResetExecution2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Render">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Render" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RenderExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:RenderTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RenderServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Render2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Render2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:Render2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:Render2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:Render2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderStream">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/RenderStream" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RenderStreamExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:RenderStreamTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RenderStreamServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExecutionInfo">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/GetExecutionInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetExecutionInfoExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:GetExecutionInfoTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetExecutionInfoServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExecutionInfo2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/GetExecutionInfo2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetExecutionInfo2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:GetExecutionInfo2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetExecutionInfo2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentMap">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/GetDocumentMap" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetDocumentMapExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:GetDocumentMapTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetDocumentMapServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadDrillthroughTarget">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadDrillthroughTarget" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadDrillthroughTargetExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:LoadDrillthroughTargetTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadDrillthroughTargetExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:LoadDrillthroughTargetServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadDrillthroughTarget2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LoadDrillthroughTarget2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadDrillthroughTarget2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:LoadDrillthroughTarget2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoadDrillthroughTarget2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:LoadDrillthroughTarget2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ToggleItem">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ToggleItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ToggleItemExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:ToggleItemTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ToggleItemServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NavigateDocumentMap">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/NavigateDocumentMap" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:NavigateDocumentMapExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:NavigateDocumentMapTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:NavigateDocumentMapServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NavigateBookmark">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/NavigateBookmark" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:NavigateBookmarkExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:NavigateBookmarkTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:NavigateBookmarkServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindString">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/FindString" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:FindStringExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:FindStringTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:FindStringServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sort">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Sort" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SortExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:SortTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SortServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sort2">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Sort2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:Sort2ExecutionHeader" part="ExecutionHeader" use="literal" />
+        <soap12:header message="tns:Sort2TrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:Sort2ServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRenderResource">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/GetRenderResource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetRenderResourceTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetRenderResourceServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRenderingExtensions">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/ListRenderingExtensions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ListRenderingExtensionsTrustedUserHeader" part="TrustedUserHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ListRenderingExtensionsServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogonUser">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/LogonUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LogonUserServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logoff">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sqlserver/2005/06/30/reporting/reportingservices/Logoff" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LogoffServerInfoHeader" part="ServerInfoHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ReportExecutionService">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">The Reporting Services Execution Service enables report execution</wsdl:documentation>
+    <wsdl:port name="ReportExecutionServiceSoap" binding="tns:ReportExecutionServiceSoap">
+      <soap:address location="http://YourReportServer.com:80/ReportServer/ReportExecution2005.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ReportExecutionServiceSoap12" binding="tns:ReportExecutionServiceSoap12">
+      <soap12:address location="http://YourReportServer.com:80/ReportServer/ReportExecution2005.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
