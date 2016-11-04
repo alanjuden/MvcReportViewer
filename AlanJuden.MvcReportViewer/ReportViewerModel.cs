@@ -34,6 +34,8 @@ namespace AlanJuden.MvcReportViewer
 		/// </summary>
 		public Dictionary<string, string[]> Parameters { get; set; }
 
+		public bool ShowHiddenParameters { get; set; }
+
 		public ReportViewerModel()
 		{
 			this.Parameters = new Dictionary<string, string[]>();
