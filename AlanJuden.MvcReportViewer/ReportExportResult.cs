@@ -33,9 +33,10 @@ namespace AlanJuden.MvcReportViewer
 				foreach (var definedReportParameter in definedReportParameters)
 				{
 					var reportParameter = new ReportParameterInfo();
+					reportParameter.MultiValue = definedReportParameter.MultiValue;
 					reportParameter.Name = definedReportParameter.Name;
 					reportParameter.Prompt = definedReportParameter.Prompt;
-					reportParameter.MultiValue = definedReportParameter.MultiValue;
+					reportParameter.PromptUser = definedReportParameter.PromptUser;
 					reportParameter.Type = definedReportParameter.Type;
 
 					if (definedReportParameter.ValidValues != null)

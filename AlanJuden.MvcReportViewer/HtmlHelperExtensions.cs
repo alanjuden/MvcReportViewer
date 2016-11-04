@@ -25,36 +25,54 @@ namespace AlanJuden.MvcReportViewer
 			foreach (var reportParameter in contentData.Parameters)
 			{
 				sb.AppendLine("					<div class='Parameter col-md-6 col-sm-12'>");
-				sb.AppendLine($"						<div class='col-sm-4'><label for='{reportParameter.Name}'>{reportParameter.Prompt}</label></div>");
-
-				sb.AppendLine("							<div class='col-sm-8'>");
-				if (reportParameter.ValidValues != null && reportParameter.ValidValues.Any())
+				if (reportParameter.PromptUser || model.ShowHiddenParameters)
 				{
-					sb.AppendLine($"						<select id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(reportParameter.MultiValue == true ? "multiple='multiple'" : "")}>");
-					foreach (var value in reportParameter.ValidValues)
-					{
-						sb.AppendLine($"							<option value='{value.Value}' {(reportParameter.SelectedValues.Contains(value.Value) ? "selected='selected'" : "")}>{value.Key}</option>");
-					}
-					sb.AppendLine($"						</select>");
-				}
-				else
-				{
-					var selectedValue = reportParameter.SelectedValues.FirstOrDefault();
+					sb.AppendLine($"						<div class='col-sm-4'><label for='{reportParameter.Name}'>{reportParameter.Prompt}</label></div>");
 
-					if (reportParameter.Type == ReportService.ParameterTypeEnum.Boolean)
+					sb.AppendLine("							<div class='col-sm-8'>");
+					if (reportParameter.ValidValues != null && reportParameter.ValidValues.Any())
 					{
-						sb.AppendLine($"						<input type='checkbox' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(selectedValue.ToBoolean() ? "checked='checked'" : "")} />");
-					}
-					else if (reportParameter.Type == ReportService.ParameterTypeEnum.DateTime)
-					{
-						sb.AppendLine($"						<input type='datetime' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' value='{selectedValue}' />");
+						sb.AppendLine($"						<select id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(reportParameter.MultiValue == true ? "multiple='multiple'" : "")}>");
+						foreach (var value in reportParameter.ValidValues)
+						{
+							sb.AppendLine($"							<option value='{value.Value}' {(reportParameter.SelectedValues.Contains(value.Value) ? "selected='selected'" : "")}>{value.Key}</option>");
+						}
+						sb.AppendLine($"						</select>");
 					}
 					else
 					{
-						sb.AppendLine($"						<input type='text' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' value='{selectedValue}' />");
+						var selectedValue = reportParameter.SelectedValues.FirstOrDefault();
+
+						if (reportParameter.Type == ReportService.ParameterTypeEnum.Boolean)
+						{
+							sb.AppendLine($"						<input type='checkbox' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(selectedValue.ToBoolean() ? "checked='checked'" : "")} />");
+						}
+						else if (reportParameter.Type == ReportService.ParameterTypeEnum.DateTime)
+						{
+							sb.AppendLine($"						<input type='datetime' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' value='{selectedValue}' />");
+						}
+						else
+						{
+							sb.AppendLine($"						<input type='text' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' value='{selectedValue}' />");
+						}
+					}
+
+					sb.AppendLine("							</div>");
+				}
+				else
+				{
+					if (reportParameter.ValidValues != null && reportParameter.ValidValues.Any())
+					{
+						var values = reportParameter.ValidValues.Where(x => x.Value != null).Select(x => x.Value).ToArray();
+						sb.AppendLine($"			<input type='hidden' id='{reportParameter.Name}' name='{reportParameter.Name}' value='{String.Join(",", values)}' />");
+					}
+					else
+					{
+						var selectedValue = reportParameter.SelectedValues.FirstOrDefault();
+
+						sb.AppendLine($"			<input type='hidden' id='{reportParameter.Name}' name='{reportParameter.Name}' value='{selectedValue}' />");
 					}
 				}
-				sb.AppendLine("							</div>");
 
 				sb.AppendLine("					</div>");
 			}
