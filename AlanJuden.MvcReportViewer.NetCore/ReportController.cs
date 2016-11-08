@@ -160,7 +160,7 @@ namespace AlanJuden.MvcReportViewer
 
 			sb.AppendLine("<html>");
 
-			return Content(sb.ToString());
+			return Content(sb.ToString(), "text/html");
 		}
 
 		public FileContentResult ReportImage(string originalPath)
