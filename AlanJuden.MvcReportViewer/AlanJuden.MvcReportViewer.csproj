@@ -77,10 +77,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://reports.epctech.com/ReportServer/reportexecution2005.asmx">
+    <WebReferenceUrl Include="http://YourReportServer.com/ReportServer/reportexecution2005.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ReportServiceExecution\</RelPath>
-      <UpdateFromURL>http://reports.epctech.com/ReportServer/reportexecution2005.asmx</UpdateFromURL>
+      <UpdateFromURL>http://YourReportServer.com/ReportServer/reportexecution2005.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -88,10 +88,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>AlanJuden_MvcReportViewer_ReportServiceExecution_ReportExecutionService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://reports.epctech.com/ReportServer/ReportService2005.asmx">
+    <WebReferenceUrl Include="http://YourReportServer.com/ReportServer/ReportService2005.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ReportService\</RelPath>
-      <UpdateFromURL>http://reports.epctech.com/ReportServer/ReportService2005.asmx</UpdateFromURL>
+      <UpdateFromURL>http://YourReportServer.com/ReportServer/ReportService2005.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

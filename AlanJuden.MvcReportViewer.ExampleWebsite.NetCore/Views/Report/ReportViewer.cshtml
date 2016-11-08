@@ -1,0 +1,214 @@
+﻿@model AlanJuden.MvcReportViewer.ReportViewerModel
+@using AlanJuden.MvcReportViewer
+
+@{
+	ViewBag.Title = "ReportViewer";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ReportViewer</h2>
+
+@section AdditionalHeadContent {
+	<link type="text/css" rel="stylesheet" href="~/css/select2.min.css" />
+	<link type="text/css" rel="stylesheet" href="~/css/select2-bootstrap.min.css" />
+	<script type="text/javascript" src="~/js/select2.min.4.0.3.js"></script>
+	<script type="text/javascript" src="~/js/jquery.highlight-5.js"></script>
+	<style type="text/css">
+		.highlight {
+			background-color: yellow;
+		}
+
+		.ReportViewer {
+			border: 1px solid grey;
+			margin-top: 4em; /* adjusts the top of the report viewer to not be hidden from this default ASP.NET MVC Template - you probably don't need this */
+		}
+
+		.ReportViewerHeader {
+			background-color: #ECE9D8;
+			width: 100%;
+			display: inline-block;
+			padding: 0em;
+		}
+
+		.ParametersContainer, .ReportViewerToolbar {
+			border-bottom: 1px solid #ccc;
+		}
+
+		.Parameters {
+			border-right: 1px solid #ccc;
+			padding: .5em;
+		}
+
+		.Parameter .col-sm-4 {
+			text-align: right;
+			padding-top: .5em;
+		}
+
+		.Parameter input, .Parameter select {
+			width: 100% !important;
+		}
+
+		.PagerNumbers .form-control {
+			width: 4em;
+		}
+
+		.SearchText .form-control {
+			width: 6em;
+		}
+
+		.SearchText {
+			margin: auto 2em;
+		}
+
+			.SearchText a {
+				float: none !important;
+			}
+
+		.PagerNumbers {
+			padding: 0em .5em;
+			display: inline-block;
+		}
+
+		.ReportViewerPager {
+			padding: .5em 0em;
+		}
+
+		.ReportViewerViewReport {
+			padding-top: .5em;
+		}
+
+		span a[disabled=disabled] {
+			color: grey;
+		}
+	</style>
+	<script type="text/javascript">
+			$(document).ready(function () {
+				$('select').select2();
+
+				$('.FirstPage, .ViewReport, .Refresh').click(function () {
+					if (!$(this).attr('disabled')) {
+						viewReportPage(1);
+					}
+				});
+
+				$('.PreviousPage').click(function () {
+					if (!$(this).attr('disabled')) {
+						var page = parseInt($('#ReportViewerCurrentPage').val()) - 1;
+
+						viewReportPage(page);
+					}
+				});
+
+				$('.NextPage').click(function () {
+					if (!$(this).attr('disabled')) {
+						var page = parseInt($('#ReportViewerCurrentPage').val()) + 1;
+
+						viewReportPage(page);
+					}
+				});
+
+				$('.LastPage').click(function () {
+					if (!$(this).attr('disabled')) {
+						var page = parseInt($('#ReportViewerTotalPages').text());
+
+						viewReportPage(page);
+					}
+				});
+
+				$('#ReportViewerCurrentPage').change(function () {
+					var page = $(this).val();
+
+					viewReportPage(page);
+				});
+
+				$('.ExportXml, .ExportCsv, .ExportPdf, .ExportMhtml, .ExportExcelOpenXml, .ExportTiff, .ExportWordOpenXml').click(function () {
+					exportReport($(this));
+				});
+
+				$('#ReportViewerSearchText').change(function () {
+					findText();
+				});
+
+				$('.FindTextButton').click(function () {
+					findText();
+				});
+
+				$('.Print').click(function () {
+					printReport();
+				});
+			});
+
+			function printReport() {
+				var params = $('.ParametersContainer :input').serializeArray();
+				var urlParams = $.param(params);
+
+				window.open("/Report/PrintReport/?reportPath=@Model.ReportPath&" + urlParams, "_blank");
+			}
+
+			function findText() {
+				$('.ReportViewerContent').removeHighlight();
+				var searchText = $("#ReportViewerSearchText").val();
+				if (searchText != undefined && searchText != null && searchText != "") {
+					var params = $('.ParametersContainer :input').serializeArray();
+					var urlParams = $.param(params);
+
+					var page = parseInt($('#ReportViewerCurrentPage').val()) + 1;
+
+					$.get("/Report/FindStringInReport/?reportPath=@Model.ReportPath&page=" + page + "&" + urlParams).done(function (data) {
+						if (data > 0) {
+							viewReportPage(data);
+						}
+						$('.ReportViewerContent').highlight(searchText);
+					});
+				}
+			}
+
+			function viewReportPage(page) {
+				var params = $('.ParametersContainer :input').serializeArray();
+				var urlParams = $.param(params);
+				var totalPages = parseInt($('#ReportViewerTotalPages').text());
+
+				if (page == undefined || page == null || page < 1) {
+					page = 1;
+				} else if (page > totalPages) {
+					page = totalPages;
+				}
+
+				$.get("/Report/ViewReportPage/?reportPath=@Model.ReportPath&page=" + page + "&" + urlParams).done(function (data) {
+					updateReportContent(data);
+				});
+			}
+
+			function exportReport(element) {
+				var params = $('.ParametersContainer :input').serializeArray();
+				var urlParams = $.param(params);
+				var format = $(element).attr('class').replace("Export", "");
+
+				window.location.href = "/Report/ExportReport/?reportPath=@Model.ReportPath&format=" + format + "&" + urlParams;
+			}
+
+			function updateReportContent(data) {
+				if (data != undefined && data != null) {
+					$('#ReportViewerCurrentPage').val(data.CurrentPage);
+					$('#ReportViewerTotalPages').text(data.TotalPages);
+					$('.ReportViewerContent').html(data.Content);
+
+					if (data.TotalPages <= 1) {
+						$('.FirstPage').attr('disabled', true);
+						$('.PreviousPage').attr('disabled', true);
+						$('.NextPage').attr('disabled', true);
+						$('.LastPage').attr('disabled', true);
+					} else {
+						$('.FirstPage').attr('disabled', false);
+						$('.PreviousPage').attr('disabled', false);
+						$('.NextPage').attr('disabled', false);
+						$('.LastPage').attr('disabled', false);
+					}
+				}
+			}
+	</script>
+}
+
+@section Content {
+	@Html.RenderReportViewer(Model)
+}
