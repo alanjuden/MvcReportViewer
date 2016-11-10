@@ -130,7 +130,8 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("				</div>");
 			sb.AppendLine("			</div>");
 			sb.AppendLine("		</div>");
-			sb.AppendLine("		<div class='ReportViewerContent'>");
+			sb.AppendLine("		<div class='ReportViewerContentContainer'>");
+			sb.AppendLine("			<div class='ReportViewerContent'>");
 
 			if (contentData == null || contentData.ReportData == null || contentData.ReportData.Length == 0)
 			{
@@ -145,9 +146,10 @@ namespace AlanJuden.MvcReportViewer
 					content = ReportServiceHelpers.ReplaceImageUrls(model, content);
 				}
 
-				sb.AppendLine($"		{content}");
+				sb.AppendLine($"			{content}");
 			}
 
+			sb.AppendLine("			</div>");
 			sb.AppendLine("		</div>");
 			sb.AppendLine("	</div>");
 			sb.AppendLine("</form>");
