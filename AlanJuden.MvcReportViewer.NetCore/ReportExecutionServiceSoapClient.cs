@@ -31,6 +31,14 @@ namespace AlanJuden.MvcReportViewer.ReportServiceExecution
 			}
 		}
 
+		public Task<Render2Response> Render2(string executionID, ReportServiceExecution.Render2Request request)
+		{
+			using (OperationContextScope context = SetMessageHeaders(executionID))
+			{
+				return this.Render2Async(request);
+			}
+		}
+
 		public Task<ExecutionInfo> SetReportParameters(string executionID, IEnumerable<ParameterValue> parameterValues, string parameterLanguage)
 		{
 			using (OperationContextScope context = SetMessageHeaders(executionID))

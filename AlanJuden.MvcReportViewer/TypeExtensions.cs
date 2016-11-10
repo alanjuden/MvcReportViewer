@@ -166,6 +166,14 @@ namespace AlanJuden.MvcReportViewer
 			return System.Web.HttpUtility.UrlDecode(text.ToSafeString());
 		}
 
+		public static bool HasValue(this string Value)
+		{
+			List<string> emptyList = new List<string>() { "", "N/A", "NA", "TBD" };
+
+			return !string.IsNullOrEmpty(Value.SafeTrim())
+				&& !emptyList.Contains(Value.SafeTrim().ToUpper());
+		}
+
 		public static string GetName(this Enum value)
 		{
 			var info = value.GetType().GetField(value.ToString());

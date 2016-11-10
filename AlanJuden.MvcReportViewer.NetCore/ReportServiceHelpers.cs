@@ -18,12 +18,6 @@ namespace AlanJuden.MvcReportViewer
 			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
 
-			/*
-			var service = new ReportService.ReportingService2005SoapClient(ReportService.ReportingService2005SoapClient.EndpointConfiguration.ReportingService2005Soap, url);
-			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
-			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
-			*/
-
 			string historyID = null;
 			ReportService.ParameterValue[] values = null;
 			ReportService.DataSourceCredentials[] rsCredentials = null;
@@ -65,10 +59,12 @@ namespace AlanJuden.MvcReportViewer
 				endPage = startPage;
 			}
 
-			var deviceInfo = $"<DeviceInfo><Toolbar>False</Toolbar></DeviceInfo>";
-			if (startPage.HasValue && startPage > 0)
+			var outputFormat = $"<OutputFormat>{format}</OutputFormat>";
+			var htmlFragment = ((format.ToUpper() == "HTML4.0" && model.UseCustomReportImagePath == false && model.ViewMode == ReportViewModes.View) ? "<HTMLFragment>true</HTMLFragment>" : "");
+			var deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
+			if (model.ViewMode == ReportViewModes.View && startPage.HasValue && startPage > 0)
 			{
-				deviceInfo = $"<DeviceInfo><Toolbar>False</Toolbar><StartPage>{startPage}</StartPage><EndPage>{endPage}</EndPage></DeviceInfo>";
+				deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
 			}
 
 			var reportParameters = new List<ReportServiceExecution.ParameterValue>();
@@ -110,8 +106,8 @@ namespace AlanJuden.MvcReportViewer
 				
 				var executionParameterResult = service.SetReportParameters(executionInfo.ExecutionID, reportParameters.ToArray(), "en-us").Result;
 
-				var renderRequest = new ReportServiceExecution.RenderRequest(format, deviceInfo);
-				var result = service.Render(executionInfo.ExecutionID, renderRequest).Result;
+				var renderRequest = new ReportServiceExecution.Render2Request(format, deviceInfo, ReportServiceExecution.PageCountMode.Actual);
+				var result = service.Render2(executionInfo.ExecutionID, renderRequest).Result;
 
 				extension = result.Extension;
 				mimeType = result.MimeType;

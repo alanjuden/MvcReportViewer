@@ -140,7 +140,10 @@ namespace AlanJuden.MvcReportViewer
 			{
 				var content = Encoding.ASCII.GetString(contentData.ReportData);
 
-				content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+				if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
+				{
+					content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+				}
 
 				sb.AppendLine($"		{content}");
 			}

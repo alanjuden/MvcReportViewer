@@ -89,4 +89,11 @@ namespace AlanJuden.MvcReportViewer
 		[EnumName("WORDOPENXML")]
 		WordOpenXml,
 	}
+
+	public enum ReportViewModes
+	{
+		Export,
+		Print,
+		View
+	}
 }

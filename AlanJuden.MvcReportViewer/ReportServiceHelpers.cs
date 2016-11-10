@@ -50,10 +50,12 @@ namespace AlanJuden.MvcReportViewer
 				endPage = startPage;
 			}
 
-			var deviceInfo = $"<DeviceInfo><Toolbar>False</Toolbar></DeviceInfo>";
-			if (startPage.HasValue && startPage > 0)
+			var outputFormat = $"<OutputFormat>{format}</OutputFormat>";
+			var htmlFragment = ((format.ToUpper() == "HTML4.0" && model.UseCustomReportImagePath == false && model.ViewMode == ReportViewModes.View) ? "<HTMLFragment>true</HTMLFragment>" : "");
+			var deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
+			if (model.ViewMode == ReportViewModes.View && startPage.HasValue && startPage > 0)
 			{
-				deviceInfo = $"<DeviceInfo><Toolbar>False</Toolbar><StartPage>{startPage}</StartPage><EndPage>{endPage}</EndPage></DeviceInfo>";
+				deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
 			}
 
 			var reportParameters = new List<ReportServiceExecution.ParameterValue>();
@@ -94,7 +96,7 @@ namespace AlanJuden.MvcReportViewer
 				executionInfo = service.LoadReport(model.ReportPath, historyID);
 				service.SetExecutionParameters(reportParameters.ToArray(), "en-us");
 
-				var result = service.Render(format, deviceInfo, out extension, out mimeType, out encoding, out warnings, out streamIDs);
+				var result = service.Render2(format, deviceInfo, ReportServiceExecution.PageCountMode.Actual, out extension, out mimeType, out encoding, out warnings, out streamIDs);
 
 				executionInfo = service.GetExecutionInfo();
 

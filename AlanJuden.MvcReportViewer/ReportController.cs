@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,12 @@ namespace AlanJuden.MvcReportViewer
 		protected abstract System.Net.ICredentials NetworkCredentials { get; }
 		protected abstract string ReportServerUrl { get; }
 
+		/// <summary>
+		/// This indicates whether or not to replace image urls from your report server to image urls on your local site to act as a proxy
+		/// *useful if your report server is not accessible publicly*
+		/// </summary>
+		protected virtual bool UseCustomReportImagePath { get { return false; } }
+
 		protected virtual string ReportImagePath
 		{
 			get
@@ -24,13 +31,17 @@ namespace AlanJuden.MvcReportViewer
 		public JsonResult ViewReportPage(string reportPath, int? page = 0)
 		{
 			var model = this.GetReportViewerModel(Request);
+			model.ViewMode = ReportViewModes.View;
 			model.ReportPath = reportPath;
 
 			var contentData = ReportServiceHelpers.ExportReportToFormat(model, ReportFormats.Html4_0, page, page);
 			var content = System.Text.Encoding.ASCII.GetString(contentData.ReportData);
-			content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+			if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
+			{
+				content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+			}
 
-			return Json(
+			var jsonResult = Json(
 				new
 				{
 					CurrentPage = contentData.CurrentPage,
@@ -39,11 +50,15 @@ namespace AlanJuden.MvcReportViewer
 				}
 				, JsonRequestBehavior.AllowGet
 			);
+			jsonResult.MaxJsonLength = int.MaxValue;
+
+			return jsonResult;
 		}
 
 		public FileResult ExportReport(string reportPath, string format)
 		{
 			var model = this.GetReportViewerModel(Request);
+			model.ViewMode = ReportViewModes.Export;
 			model.ReportPath = reportPath;
 
 			var extension = "";
@@ -103,6 +118,7 @@ namespace AlanJuden.MvcReportViewer
 		public JsonResult FindStringInReport(string reportPath, string searchText, int? startPage = 0)
 		{
 			var model = this.GetReportViewerModel(Request);
+			model.ViewMode = ReportViewModes.View;
 			model.ReportPath = reportPath;
 
 			return Json(ReportServiceHelpers.FindStringInReport(model, searchText, startPage).ToInt32(), JsonRequestBehavior.AllowGet);
@@ -111,9 +127,10 @@ namespace AlanJuden.MvcReportViewer
 		public ActionResult PrintReport(string reportPath)
 		{
 			var model = this.GetReportViewerModel(Request);
+			model.ViewMode = ReportViewModes.Print;
 			model.ReportPath = reportPath;
 
-			var contentData = ReportServiceHelpers.ExportReportToFormat(model, "HTML4.0");
+			var contentData = ReportServiceHelpers.ExportReportToFormat(model, ReportFormats.Html4_0);
 			var content = System.Text.Encoding.ASCII.GetString(contentData.ReportData);
 			content = ReportServiceHelpers.ReplaceImageUrls(model, content);
 
@@ -180,6 +197,7 @@ namespace AlanJuden.MvcReportViewer
 			model.Credentials = this.NetworkCredentials;
 			model.ServerUrl = this.ReportServerUrl;
 			model.ReportImagePath = this.ReportImagePath;
+			model.UseCustomReportImagePath = this.UseCustomReportImagePath;
 			model.BuildParameters(Request);
 
 			return model;
