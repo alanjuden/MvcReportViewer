@@ -211,6 +211,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\mvcreportviewer-bootstrap.css" />
     <Content Include="Content\select2-bootstrap.css" />
     <Content Include="Content\select2-bootstrap.min.css" />
     <Content Include="Content\select2.css" />
