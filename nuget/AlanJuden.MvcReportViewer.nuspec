@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AlanJuden.MvcReportViewer</id>
-    <version>1.0.0.0</version>
+    <version>1.0.1.0</version>
     <title>AlanJuden.MvcReportViewer</title>
     <authors>alanjuden</authors>
     <owners>alanjuden</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/alanjuden/MvcReportViewer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Custom Report Viewer control to replace MS Report Viewer on MVC projects</description>
-    <releaseNotes>Initial Release</releaseNotes>
+    <releaseNotes>Updated to include the necessary .css file for looking nice in Bootstrap.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>SSRS ReportViewer MVC Report Viewer Reporting HtmlHelpers Helpers</tags>
   </metadata>
