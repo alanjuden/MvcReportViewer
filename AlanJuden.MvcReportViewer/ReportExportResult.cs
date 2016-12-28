@@ -33,7 +33,7 @@ namespace AlanJuden.MvcReportViewer
 					reportParameter.MultiValue = definedReportParameter.MultiValue;
 					reportParameter.Name = definedReportParameter.Name;
 					reportParameter.Prompt = definedReportParameter.Prompt;
-					reportParameter.PromptUser = definedReportParameter.PromptUser;
+					reportParameter.PromptUser = ((definedReportParameter.PromptUser && !definedReportParameter.Prompt.HasValue()) ? false : definedReportParameter.PromptUser);
 					reportParameter.Type = definedReportParameter.Type;
 
 					if (definedReportParameter.ValidValues != null)

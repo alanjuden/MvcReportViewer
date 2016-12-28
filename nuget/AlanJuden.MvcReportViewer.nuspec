@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AlanJuden.MvcReportViewer</id>
-    <version>1.0.1.0</version>
+    <version>1.0.2.0</version>
     <title>AlanJuden.MvcReportViewer</title>
     <authors>alanjuden</authors>
     <owners>alanjuden</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/alanjuden/MvcReportViewer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Custom Report Viewer control to replace MS Report Viewer on MVC projects</description>
-    <releaseNotes>Updated to include the necessary .css file for looking nice in Bootstrap.</releaseNotes>
+    <releaseNotes>Added an option to have the report load via ajax after the page has finished loading on initial page load. Fixed an issue with parameters being prefilled with valid values rather than default values. Also fixed an issue around the building of parameters that had common separators in the parameter text (such as space, comma, semi-colon). Added logic to show an error message in the report content area if there's an error loading the report.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>SSRS ReportViewer MVC Report Viewer Reporting HtmlHelpers Helpers</tags>
   </metadata>

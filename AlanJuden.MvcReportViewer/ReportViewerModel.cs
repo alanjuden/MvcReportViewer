@@ -40,6 +40,11 @@ namespace AlanJuden.MvcReportViewer
 
 		public ReportViewModes ViewMode { get; set; }
 
+		/// <summary>
+		/// This indicates whether or not the report will be preloaded when the page loads initially or if it will be an ajax request.
+		/// </summary>
+		public bool AjaxLoadInitialReport { get; set; }
+
 		public ReportViewerModel()
 		{
 			this.Parameters = new Dictionary<string, string[]>();
@@ -63,16 +68,18 @@ namespace AlanJuden.MvcReportViewer
 			}
 		}
 
+		private static string[] VALUE_SEPARATORS = new string[] { "," };
+
 		public void BuildParameters(HttpRequestBase request)
 		{
 			foreach (var key in request.QueryString.AllKeys)
 			{
-				this.AddParameter(key, request.QueryString[key].ToSafeString().ToStringList().ToArray());
+				this.AddParameter(key, request.QueryString[key].ToSafeString().ToStringList(VALUE_SEPARATORS).ToArray());
 			}
 
 			foreach (var key in request.Form.AllKeys)
 			{
-				this.AddParameter(key, request.Form[key].ToSafeString().ToStringList().ToArray());
+				this.AddParameter(key, request.Form[key].ToSafeString().ToStringList(VALUE_SEPARATORS).ToArray());
 			}
 		}
 	}

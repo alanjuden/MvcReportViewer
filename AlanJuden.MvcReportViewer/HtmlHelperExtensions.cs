@@ -18,7 +18,7 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("	<div class='ReportViewer row'>");
 			sb.AppendLine("		<div class='ReportViewerHeader col-sm-12'>");
 			sb.AppendLine("			<div class='ParametersContainer col-sm-12'>");
-			sb.AppendLine("				<div class='Parameters col-sm-10'>");
+			sb.AppendLine("				<div class='Parameters col-sm-11'>");
 			//Parameters start
 			foreach (var reportParameter in contentData.Parameters)
 			{
@@ -59,16 +59,10 @@ namespace AlanJuden.MvcReportViewer
 				}
 				else
 				{
-					if (reportParameter.ValidValues != null && reportParameter.ValidValues.Any())
+					if (reportParameter.SelectedValues != null && reportParameter.SelectedValues.Any())
 					{
-						var values = reportParameter.ValidValues.Where(x => x.Value != null).Select(x => x.Value).ToArray();
+						var values = reportParameter.SelectedValues.Where(x => x != null).Select(x => x).ToArray();
 						sb.AppendLine($"			<input type='hidden' id='{reportParameter.Name}' name='{reportParameter.Name}' value='{String.Join(",", values)}' />");
-					}
-					else
-					{
-						var selectedValue = reportParameter.SelectedValues.FirstOrDefault();
-
-						sb.AppendLine($"			<input type='hidden' id='{reportParameter.Name}' name='{reportParameter.Name}' value='{selectedValue}' />");
 					}
 				}
 
@@ -77,7 +71,7 @@ namespace AlanJuden.MvcReportViewer
 
 			sb.AppendLine("				</div>");
 
-			sb.AppendLine("				<div class='ReportViewerViewReport col-sm-2 text-center'>");
+			sb.AppendLine("				<div class='ReportViewerViewReport col-sm-1 text-center'>");
 			sb.AppendLine("					<button type='button' class='btn btn-primary ViewReport'>View Report</button>");
 			sb.AppendLine("				</div>");
 			sb.AppendLine("			</div>");
@@ -130,20 +124,27 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("		<div class='ReportViewerContentContainer'>");
 			sb.AppendLine("			<div class='ReportViewerContent'>");
 
-			if (contentData == null || contentData.ReportData == null || contentData.ReportData.Length == 0)
+			if (model.AjaxLoadInitialReport)
 			{
-				sb.AppendLine("");
+				sb.AppendLine("			<script type='text/javascript'>$(document).ready(function () { viewReportPage(1); });</script>");
 			}
 			else
 			{
-				var content = Encoding.ASCII.GetString(contentData.ReportData);
-
-				if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
+				if (contentData == null || contentData.ReportData == null || contentData.ReportData.Length == 0)
 				{
-					content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+					sb.AppendLine("");
 				}
+				else
+				{
+					var content = Encoding.ASCII.GetString(contentData.ReportData);
 
-				sb.AppendLine($"			{content}");
+					if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
+					{
+						content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+					}
+
+					sb.AppendLine($"			{content}");
+				}
 			}
 
 			sb.AppendLine("			</div>");

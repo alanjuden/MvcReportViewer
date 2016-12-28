@@ -62,16 +62,10 @@ namespace AlanJuden.MvcReportViewer
 				}
 				else
 				{
-					if (reportParameter.ValidValues != null && reportParameter.ValidValues.Any())
+					if (reportParameter.SelectedValues != null && reportParameter.SelectedValues.Any())
 					{
-						var values = reportParameter.ValidValues.Where(x => x.Value != null).Select(x => x.Value).ToArray();
+						var values = reportParameter.SelectedValues.Where(x => x != null).Select(x => x).ToArray();
 						sb.AppendLine($"			<input type='hidden' id='{reportParameter.Name}' name='{reportParameter.Name}' value='{String.Join(",", values)}' />");
-					}
-					else
-					{
-						var selectedValue = reportParameter.SelectedValues.FirstOrDefault();
-
-						sb.AppendLine($"			<input type='hidden' id='{reportParameter.Name}' name='{reportParameter.Name}' value='{selectedValue}' />");
 					}
 				}
 
@@ -133,20 +127,27 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("		<div class='ReportViewerContentContainer'>");
 			sb.AppendLine("			<div class='ReportViewerContent'>");
 
-			if (contentData == null || contentData.ReportData == null || contentData.ReportData.Length == 0)
+			if (model.AjaxLoadInitialReport)
 			{
-				sb.AppendLine("");
+
 			}
 			else
 			{
-				var content = Encoding.ASCII.GetString(contentData.ReportData);
-
-				if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
+				if (contentData == null || contentData.ReportData == null || contentData.ReportData.Length == 0)
 				{
-					content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+					sb.AppendLine("");
 				}
+				else
+				{
+					var content = Encoding.ASCII.GetString(contentData.ReportData);
 
-				sb.AppendLine($"			{content}");
+					if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
+					{
+						content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+					}
+
+					sb.AppendLine($"			{content}");
+				}
 			}
 
 			sb.AppendLine("			</div>");

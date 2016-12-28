@@ -57,6 +57,14 @@
 	padding: 0em;
 }
 
+.ReportViewerError { 
+	color: #ff0000; 
+	font-weight: bold; 
+	font-size: 120%; 
+	padding: 2em 1em;
+	margin-top: 6em;
+}
+
 .ParametersContainer, .ReportViewerToolbar {
 	border-bottom: 1px solid #ccc;
 }

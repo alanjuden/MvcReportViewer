@@ -120,8 +120,13 @@
 					page = totalPages;
 				}
 
-				$.get("/Report/ViewReportPage/?reportPath=@Model.ReportPath&page=" + page + "&" + urlParams).done(function (data) {
+				$.get("/Report/ViewReportPage/?reportPath=@Model.ReportPath&page=" + page + "&" + urlParams)
+				.done(function (data) {
 					updateReportContent(data);
+					hideLoadingProgress();
+				})
+				.fail(function (data) {
+					$('.ReportViewerContent').html("<div class='ReportViewerError'>Report failed to load, check report parameters...</div>");
 					hideLoadingProgress();
 				});
 			}

@@ -13,6 +13,7 @@ namespace AlanJuden.MvcReportViewer
 		/// *useful if your report server is not accessible publicly*
 		/// </summary>
 		protected virtual bool UseCustomReportImagePath { get { return false; } }
+		protected virtual bool AjaxLoadInitialReport { get { return true; } }
 
 		protected virtual string ReportImagePath
 		{
@@ -188,6 +189,7 @@ namespace AlanJuden.MvcReportViewer
 		protected ReportViewerModel GetReportViewerModel(HttpRequestBase request)
 		{
 			var model = new ReportViewerModel();
+			model.AjaxLoadInitialReport = this.AjaxLoadInitialReport;
 			model.Credentials = this.NetworkCredentials;
 			model.ServerUrl = this.ReportServerUrl;
 			model.ReportImagePath = this.ReportImagePath;

@@ -21,5 +21,10 @@
         "System.Xml.XmlSerializer": "4.0.11"
       }
     }
+  },
+  "scripts": {
+    "postcompile": [
+      "dotnet pack --no-build --configuration %compile:Configuration%"
+    ]
   }
 }
