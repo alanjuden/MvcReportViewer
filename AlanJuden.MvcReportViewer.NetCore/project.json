@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-*",
+  "version": "1.0.2-*",
     "dependencies": {
         "Microsoft.AspNetCore.Html.Abstractions": "1.0.0",
         "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
