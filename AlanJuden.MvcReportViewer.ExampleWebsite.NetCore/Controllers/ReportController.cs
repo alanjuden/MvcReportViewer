@@ -28,8 +28,7 @@ namespace AlanJuden.MvcReportViewer.ExampleWebsite.NetCore.Controllers
 			get
 			{
 				//You don't want to put the full API path here, just the path to the report server's ReportServer directory that it creates (you should be able to access this path from your browser: https://YourReportServerUrl.com/ReportServer/ReportExecution2005.asmx )
-				//return "https://YourReportServerUrl.com/ReportServer";
-				return "http://reports.epctech.com/ReportServer";
+				return "https://YourReportServerUrl.com/ReportServer";
 			}
 		}
 
