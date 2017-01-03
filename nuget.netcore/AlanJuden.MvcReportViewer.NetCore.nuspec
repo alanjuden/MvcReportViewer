@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AlanJuden.MvcReportViewer.NetCore</id>
-    <version>1.0.2.0</version>
+    <version>1.0.3.0</version>
     <title>AlanJuden.MvcReportViewer.NetCore</title>
     <authors>alanjuden</authors>
     <owners>alanjuden</owners>
@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/alanjuden/MvcReportViewer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NetCore Custom Report Viewer control to replace MS Report Viewer on MVC projects (*this is for .NetCore projects only*)</description>
-    <releaseNotes>Added an option to have the report load via ajax after the page has finished loading on initial page load. Fixed an issue with parameters being prefilled with valid values rather than default values. Also fixed an issue around the building of parameters that had common separators in the parameter text (such as space, comma, semi-colon). Added logic to show an error message in the report content area if there's an error loading the report.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <releaseNotes>Added to ability to customize the Encoding type used when formatting the output from SSRS.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
     <tags>SSRS ReportViewer MVC Report Viewer Reporting HtmlHelpers Helpers NetCore</tags>
   </metadata>
 </package>

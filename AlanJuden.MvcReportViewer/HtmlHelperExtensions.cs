@@ -136,7 +136,7 @@ namespace AlanJuden.MvcReportViewer
 				}
 				else
 				{
-					var content = Encoding.ASCII.GetString(contentData.ReportData);
+					var content = model.Encoding.GetString(contentData.ReportData);
 
 					if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
 					{

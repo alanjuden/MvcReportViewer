@@ -39,6 +39,7 @@ namespace AlanJuden.MvcReportViewer
 		public bool ShowHiddenParameters { get; set; }
 
 		public ReportViewModes ViewMode { get; set; }
+		public System.Text.Encoding Encoding { get; set; }
 
 		/// <summary>
 		/// This indicates whether or not the report will be preloaded when the page loads initially or if it will be an ajax request.

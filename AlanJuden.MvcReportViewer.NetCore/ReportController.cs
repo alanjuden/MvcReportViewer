@@ -21,6 +21,7 @@ namespace AlanJuden.MvcReportViewer
 		/// </summary>
 		protected virtual bool UseCustomReportImagePath { get { return false; } }
 		protected virtual bool AjaxLoadInitialReport { get { return true; } }
+		protected virtual System.Text.Encoding Encoding { get { return System.Text.Encoding.ASCII; } }
 
 		protected virtual string ReportImagePath
 		{
@@ -37,7 +38,7 @@ namespace AlanJuden.MvcReportViewer
 			model.ReportPath = reportPath;
 
 			var contentData = ReportServiceHelpers.ExportReportToFormat(model, ReportFormats.Html4_0, page, page);
-			var content = System.Text.Encoding.ASCII.GetString(contentData.ReportData);
+			var content = model.Encoding.GetString(contentData.ReportData);
 			if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
 			{
 				content = ReportServiceHelpers.ReplaceImageUrls(model, content);
@@ -135,7 +136,7 @@ namespace AlanJuden.MvcReportViewer
 			model.ReportPath = reportPath;
 
 			var contentData = ReportServiceHelpers.ExportReportToFormat(model, ReportFormats.Html4_0);
-			var content = System.Text.Encoding.ASCII.GetString(contentData.ReportData);
+			var content = model.Encoding.GetString(contentData.ReportData);
 			content = ReportServiceHelpers.ReplaceImageUrls(model, content);
 
 			var sb = new System.Text.StringBuilder();
@@ -202,6 +203,7 @@ namespace AlanJuden.MvcReportViewer
 			var model = new ReportViewerModel();
 			model.AjaxLoadInitialReport = this.AjaxLoadInitialReport;
 			model.Credentials = this.NetworkCredentials;
+			model.Encoding = this.Encoding;
 			model.ServerUrl = this.ReportServerUrl;
 			model.ReportImagePath = this.ReportImagePath;
 			model.UseCustomReportImagePath = this.UseCustomReportImagePath;
