@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 
 namespace AlanJuden.MvcReportViewer
@@ -82,6 +84,15 @@ namespace AlanJuden.MvcReportViewer
 			{
 				this.AddParameter(key, request.Form[key].ToSafeString().ToStringList(VALUE_SEPARATORS).ToArray());
 			}
+		}
+
+		public bool IsMissingAnyRequiredParameterValues(List<ReportParameterInfo> parameters)
+		{
+			var nonBlankParameters = parameters.Where(x => x.AllowBlank == false);
+			var matchedParameters = this.Parameters.Where(x => nonBlankParameters.Select(p => p.Name).Contains(x.Key));
+			var missingValueParameters = matchedParameters.Where(x => x.Value == null || x.Value.Length == 0 || (x.Value.Where(v => v == null || v == String.Empty)).Any());
+
+			return missingValueParameters.Any();
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace AlanJuden.MvcReportViewer
 
 			sb.AppendLine("<form class='form-inline' id='frmReportViewer' name='frmReportViewer'>");
 			sb.AppendLine("	<div class='ReportViewer row'>");
-			sb.AppendLine("		<div class='ReportViewerHeader col-sm-12'>");
+			sb.AppendLine("		<div class='ReportViewerHeader row'>");
 			sb.AppendLine("			<div class='ParametersContainer col-sm-12'>");
 			sb.AppendLine("				<div class='Parameters col-sm-10'>");
 			//Parameters start
@@ -79,7 +79,7 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("				</div>");
 			sb.AppendLine("			</div>");
 
-			sb.AppendLine("			<div class='ReportViewerToolbar col-sm-12'>");
+			sb.AppendLine("			<div class='ReportViewerToolbar row'>");
 			sb.AppendLine("				<div class='ReportViewerPager'>");
 			sb.AppendLine("					<div class='btn-toolbar'>");
 			sb.AppendLine("						<div class='btn-group'>");
@@ -124,29 +124,36 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("				</div>");
 			sb.AppendLine("			</div>");
 			sb.AppendLine("		</div>");
-			sb.AppendLine("		<div class='ReportViewerContentContainer'>");
+			sb.AppendLine("		<div class='ReportViewerContentContainer row'>");
 			sb.AppendLine("			<div class='ReportViewerContent'>");
 
-			if (model.AjaxLoadInitialReport)
+			if (model.IsMissingAnyRequiredParameterValues(contentData.Parameters))
 			{
-
+				sb.AppendLine("			<div class='ReportViewerInformation'>Please fill parameters and run the report...</div>");
 			}
 			else
 			{
-				if (contentData == null || contentData.ReportData == null || contentData.ReportData.Length == 0)
+				if (model.AjaxLoadInitialReport)
 				{
-					sb.AppendLine("");
+					sb.AppendLine("			<script type='text/javascript'>$(document).ready(function () { viewReportPage(1); });</script>");
 				}
 				else
 				{
-					var content = model.Encoding.GetString(contentData.ReportData);
-
-					if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
+					if (contentData == null || contentData.ReportData == null || contentData.ReportData.Length == 0)
 					{
-						content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+						sb.AppendLine("");
 					}
+					else
+					{
+						var content = model.Encoding.GetString(contentData.ReportData);
 
-					sb.AppendLine($"			{content}");
+						if (model.UseCustomReportImagePath && model.ReportImagePath.HasValue())
+						{
+							content = ReportServiceHelpers.ReplaceImageUrls(model, content);
+						}
+
+						sb.AppendLine($"			{content}");
+					}
 				}
 			}
 

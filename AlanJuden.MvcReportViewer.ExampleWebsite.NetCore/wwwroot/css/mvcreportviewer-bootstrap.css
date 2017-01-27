@@ -61,8 +61,14 @@
 	color: #ff0000; 
 	font-weight: bold; 
 	font-size: 120%; 
-	padding: 2em 1em;
-	margin-top: 6em;
+	margin: 1em;
+}
+
+.ReportViewerInformation {
+	color: #000; 
+	font-weight: bold; 
+	font-size: 120%; 
+	margin: 1em;
 }
 
 .ParametersContainer, .ReportViewerToolbar {
