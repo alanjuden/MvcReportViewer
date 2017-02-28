@@ -111,13 +111,13 @@ namespace AlanJuden.MvcReportViewer
 			return File(contentData.ReportData, contentData.MimeType, filename);
 		}
 
-		public JsonResult FindStringInReport(string reportPath, string searchText, int? startPage = 0)
+		public JsonResult FindStringInReport(string reportPath, string searchText, int? page = 0)
 		{
 			var model = this.GetReportViewerModel(Request);
 			model.ViewMode = ReportViewModes.View;
 			model.ReportPath = reportPath;
 
-			return Json(ReportServiceHelpers.FindStringInReport(model, searchText, startPage).ToInt32(), JsonRequestBehavior.AllowGet);
+			return Json(ReportServiceHelpers.FindStringInReport(model, searchText, page).ToInt32(), JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult PrintReport(string reportPath)

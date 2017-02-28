@@ -8,20 +8,31 @@ namespace AlanJuden.MvcReportViewer
 {
 	public static class ReportServiceHelpers
 	{
-		private static System.ServiceModel.BasicHttpBinding _initializeHttpBinding()
+		private static System.ServiceModel.HttpBindingBase _initializeHttpBinding(string url)
 		{
-			var basicHttpBinding = new System.ServiceModel.BasicHttpBinding(System.ServiceModel.BasicHttpSecurityMode.TransportCredentialOnly);
-			basicHttpBinding.Security.Transport.ClientCredentialType = System.ServiceModel.HttpClientCredentialType.Windows;
-			basicHttpBinding.MaxReceivedMessageSize = int.MaxValue;
+			if (url.ToLower().StartsWith("https"))
+			{
+				var binding = new System.ServiceModel.BasicHttpsBinding(System.ServiceModel.BasicHttpsSecurityMode.Transport);
+				binding.Security.Transport.ClientCredentialType = System.ServiceModel.HttpClientCredentialType.Windows;
+				binding.MaxReceivedMessageSize = int.MaxValue;
 
-			return basicHttpBinding;
+				return binding;
+			}
+			else
+			{
+				var binding = new System.ServiceModel.BasicHttpBinding(System.ServiceModel.BasicHttpSecurityMode.TransportCredentialOnly);
+				binding.Security.Transport.ClientCredentialType = System.ServiceModel.HttpClientCredentialType.Windows;
+				binding.MaxReceivedMessageSize = int.MaxValue;
+
+				return binding;
+			}
 		}
 
 		public static ReportService.ReportParameter[] GetReportParameters(ReportViewerModel model, bool forRendering = false)
 		{
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportService2005.asmx";
 
-			var basicHttpBinding = _initializeHttpBinding();
+			var basicHttpBinding = _initializeHttpBinding(url);
 			var service = new ReportService.ReportingService2005SoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
 			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
@@ -46,7 +57,7 @@ namespace AlanJuden.MvcReportViewer
 
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
 
-			var basicHttpBinding = _initializeHttpBinding();
+			var basicHttpBinding = _initializeHttpBinding(url);
 			var service = new ReportServiceExecution.ReportExecutionServiceSoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
 			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
@@ -66,8 +77,9 @@ namespace AlanJuden.MvcReportViewer
 			}
 
 			var outputFormat = $"<OutputFormat>{format}</OutputFormat>";
+			var encodingFormat = $"<Encoding>{model.Encoding.EncodingName}</Encoding>";
 			var htmlFragment = ((format.ToUpper() == "HTML4.0" && model.UseCustomReportImagePath == false && model.ViewMode == ReportViewModes.View) ? "<HTMLFragment>true</HTMLFragment>" : "");
-			var deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
+			var deviceInfo = $"<DeviceInfo>{outputFormat}{encodingFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
 			if (model.ViewMode == ReportViewModes.View && startPage.HasValue && startPage > 0)
 			{
 				deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
@@ -155,7 +167,7 @@ namespace AlanJuden.MvcReportViewer
 		{
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
 
-			var basicHttpBinding = _initializeHttpBinding();
+			var basicHttpBinding = _initializeHttpBinding(url);
 			var service = new ReportServiceExecution.ReportExecutionServiceSoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
 			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
@@ -171,7 +183,15 @@ namespace AlanJuden.MvcReportViewer
 			exportResult.CurrentPage = startPage.ToInt32();
 			exportResult.SetParameters(definedReportParameters, model.Parameters);
 
-			var deviceInfo = $"<DeviceInfo><Toolbar>False</Toolbar></DeviceInfo>";
+			var format = "HTML4.0";
+			var outputFormat = $"<OutputFormat>{format}</OutputFormat>";
+			var encodingFormat = $"<Encoding>{model.Encoding.EncodingName}</Encoding>";
+			var htmlFragment = ((format.ToUpper() == "HTML4.0" && model.UseCustomReportImagePath == false && model.ViewMode == ReportViewModes.View) ? "<HTMLFragment>true</HTMLFragment>" : "");
+			var deviceInfo = $"<DeviceInfo>{outputFormat}{encodingFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
+			if (model.ViewMode == ReportViewModes.View && startPage.HasValue && startPage > 0)
+			{
+				deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
+			}
 
 			var reportParameters = new List<ReportServiceExecution.ParameterValue>();
 			foreach (var parameter in exportResult.Parameters)
@@ -198,6 +218,11 @@ namespace AlanJuden.MvcReportViewer
 			var executionHeader = new ReportServiceExecution.ExecutionHeader();
 
 			ReportServiceExecution.ExecutionInfo executionInfo = null;
+			string extension = null;
+			string encoding = null;
+			string mimeType = null;
+			string[] streamIDs = null;
+			ReportServiceExecution.Warning[] warnings = null;
 
 			try
 			{
@@ -205,6 +230,17 @@ namespace AlanJuden.MvcReportViewer
 				executionInfo = service.LoadReportAsync(model.ReportPath, historyID).Result;
 				executionHeader.ExecutionID = executionInfo.ExecutionID;
 				var executionParameterResult = service.SetReportParameters(executionInfo.ExecutionID, reportParameters.ToArray(), "en-us").Result;
+
+				var renderRequest = new ReportServiceExecution.Render2Request(format, deviceInfo, ReportServiceExecution.PageCountMode.Actual);
+				var result = service.Render2(executionInfo.ExecutionID, renderRequest).Result;
+
+				extension = result.Extension;
+				mimeType = result.MimeType;
+				encoding = result.Encoding;
+				warnings = result.Warnings;
+				streamIDs = result.StreamIds;
+
+				executionInfo = service.GetExecutionInfo(executionHeader.ExecutionID).Result;
 
 				return service.FindString(executionInfo.ExecutionID, startPage.ToInt32(), executionInfo.NumPages, searchText).Result;
 			}

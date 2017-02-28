@@ -49,11 +49,12 @@ namespace AlanJuden.MvcReportViewer
 			}
 
 			var outputFormat = $"<OutputFormat>{format}</OutputFormat>";
+			var encodingFormat = $"<Encoding>{model.Encoding.EncodingName}</Encoding>";
 			var htmlFragment = ((format.ToUpper() == "HTML4.0" && model.UseCustomReportImagePath == false && model.ViewMode == ReportViewModes.View) ? "<HTMLFragment>true</HTMLFragment>" : "");
 			var deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
 			if (model.ViewMode == ReportViewModes.View && startPage.HasValue && startPage > 0)
 			{
-				deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
+				deviceInfo = $"<DeviceInfo>{outputFormat}{encodingFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
 			}
 
 			var reportParameters = new List<ReportServiceExecution.ParameterValue>();
@@ -143,7 +144,15 @@ namespace AlanJuden.MvcReportViewer
 			exportResult.CurrentPage = startPage.ToInt32();
 			exportResult.SetParameters(definedReportParameters, model.Parameters);
 
-			var deviceInfo = $"<DeviceInfo><Toolbar>False</Toolbar></DeviceInfo>";
+			var format = "HTML4.0";
+			var outputFormat = $"<OutputFormat>{format}</OutputFormat>";
+			var encodingFormat = $"<Encoding>{model.Encoding.EncodingName}</Encoding>";
+			var htmlFragment = ((format.ToUpper() == "HTML4.0" && model.UseCustomReportImagePath == false && model.ViewMode == ReportViewModes.View) ? "<HTMLFragment>true</HTMLFragment>" : "");
+			var deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
+			if (model.ViewMode == ReportViewModes.View && startPage.HasValue && startPage > 0)
+			{
+				deviceInfo = $"<DeviceInfo>{outputFormat}{encodingFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
+			}
 
 			var reportParameters = new List<ReportServiceExecution.ParameterValue>();
 			foreach (var parameter in exportResult.Parameters)
@@ -171,12 +180,21 @@ namespace AlanJuden.MvcReportViewer
 			service.ExecutionHeaderValue = executionHeader;
 
 			ReportServiceExecution.ExecutionInfo executionInfo = null;
+			string extension = null;
+			string encoding = null;
+			string mimeType = null;
+			string[] streamIDs = null;
+			ReportServiceExecution.Warning[] warnings = null;
 
 			try
 			{
 				string historyID = null;
 				executionInfo = service.LoadReport(model.ReportPath, historyID);
 				service.SetExecutionParameters(reportParameters.ToArray(), "en-us");
+
+				var result = service.Render2(format, deviceInfo, ReportServiceExecution.PageCountMode.Actual, out extension, out mimeType, out encoding, out warnings, out streamIDs);
+
+				executionInfo = service.GetExecutionInfo();
 
 				return service.FindString(startPage.ToInt32(), executionInfo.NumPages, searchText);
 			}
