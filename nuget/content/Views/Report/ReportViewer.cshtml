@@ -12,6 +12,12 @@
 	<link type="text/css" rel="stylesheet" href="~/Content/select2.min.css" />
 	<link type="text/css" rel="stylesheet" href="~/Content/select2-bootstrap.min.css" />
 	<link type="text/css" rel="stylesheet" href="~/Content/mvcreportviewer-bootstrap.css" />
+	<style type="text/css">
+		.row {
+			margin-left: 0;
+			margin-right: 0;
+		}
+	</style>
 	<script type="text/javascript" src="~/Scripts/select2.min.4.0.3.js"></script>
 	<script type="text/javascript" src="~/Scripts/jquery.highlight-5.js"></script>
 	<script type="text/javascript">
@@ -58,8 +64,12 @@
 					exportReport($(this));
 				});
 
-				$('#ReportViewerSearchText').change(function () {
-					findText();
+				$('#ReportViewerSearchText').on("keypress", function (e) {
+					if (e.keyCode == 13) {
+						// Cancel the default action on keypress event
+						e.preventDefault(); 
+						findText();
+					}
 				});
 
 				$('.FindTextButton').click(function () {
@@ -72,8 +82,10 @@
 			});
 
 			function showLoadingProgress(message) {
+				hideLoadingProgress();
+
 				$('.ReportViewerContent').hide();
-				$('.ReportViewerContentContainer').append('<div class="loadingContainer"><div style="margin: 0 auto; width: 100%; text-align: center; vertical-align: middle;"><h2><i class="glyphicon glyphicon-cog gly-spin"></i>' + message + '</h2></div></div>');
+				$('.ReportViewerContentContainer').append('<div class="loadingContainer"><div style="margin: 0 auto; width: 100%; text-align: center; vertical-align: middle;"><h2><i class="glyphicon glyphicon-refresh gly-spin"></i>' + message + '</h2></div></div>');
 			}
 
 			function hideLoadingProgress() {
@@ -85,7 +97,7 @@
 				var params = $('.ParametersContainer :input').serializeArray();
 				var urlParams = $.param(params);
 
-				window.open("/Report/PrintReport/?reportPath=@Model.ReportPath&" + urlParams, "_blank");
+				window.open("/Report/PrintReport/?reportPath=@Model.ReportPath.UrlEncode()&" + urlParams, "_blank");
 			}
 
 			function findText() {
@@ -96,19 +108,23 @@
 					var params = $('.ParametersContainer :input').serializeArray();
 					var urlParams = $.param(params);
 
-					var page = parseInt($('#ReportViewerCurrentPage').val()) + 1;
+					var page = parseInt($('#ReportViewerCurrentPage').val());
 
-					$.get("/Report/FindStringInReport/?reportPath=@Model.ReportPath&page=" + page + "&" + urlParams).done(function (data) {
+					$.get("/Report/FindStringInReport/?reportPath=@Model.ReportPath.UrlEncode()&page=" + page + "&searchText=" + searchText + "&" + urlParams).done(function (data) {
 						if (data > 0) {
-							viewReportPage(data);
+							viewReportPage(data, function () {
+								$('.ReportViewerContent').highlight(searchText);
+								hideLoadingProgress();
+							});
+						} else {
+							$('.ReportViewerContent').highlight(searchText);
+							hideLoadingProgress();
 						}
-						$('.ReportViewerContent').highlight(searchText);
-						hideLoadingProgress();
 					});
 				}
 			}
 
-			function viewReportPage(page) {
+			function viewReportPage(page, afterReportLoadedCallback) {
 				showLoadingProgress('Loading Report Page...');
 				var params = $('.ParametersContainer :input').serializeArray();
 				var urlParams = $.param(params);
@@ -120,10 +136,14 @@
 					page = totalPages;
 				}
 
-				$.get("/Report/ViewReportPage/?reportPath=@Model.ReportPath&page=" + page + "&" + urlParams)
+				$.get("/Report/ViewReportPage/?reportPath=@Model.ReportPath.UrlEncode()&page=" + page + "&" + urlParams)
 				.done(function (data) {
 					updateReportContent(data);
 					hideLoadingProgress();
+
+					if (afterReportLoadedCallback && typeof (afterReportLoadedCallback) == "function") {
+						afterReportLoadedCallback();
+					}
 				})
 				.fail(function (data) {
 					$('.ReportViewerContent').html("<div class='ReportViewerError'>Report failed to load, check report parameters...</div>");
@@ -136,7 +156,7 @@
 				var urlParams = $.param(params);
 				var format = $(element).attr('class').replace("Export", "");
 
-				window.location.href = "/Report/ExportReport/?reportPath=@Model.ReportPath&format=" + format + "&" + urlParams;
+				window.location.href = "/Report/ExportReport/?reportPath=@Model.ReportPath.UrlEncode()&format=" + format + "&" + urlParams;
 			}
 
 			function updateReportContent(data) {
@@ -162,5 +182,5 @@
 }
 
 @section Content {
-	@Html.RenderReportViewer(Model)	
+	@Html.RenderReportViewer(Model)
 }

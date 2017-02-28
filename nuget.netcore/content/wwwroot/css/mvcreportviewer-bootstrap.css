@@ -121,3 +121,7 @@
 span a[disabled=disabled] {
 	color: grey;
 }
+
+.loadingContainer i {
+    margin-right: .5em;
+}
