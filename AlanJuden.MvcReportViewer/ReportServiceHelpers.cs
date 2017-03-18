@@ -54,7 +54,14 @@ namespace AlanJuden.MvcReportViewer
 			var deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
 			if (model.ViewMode == ReportViewModes.View && startPage.HasValue && startPage > 0)
 			{
-				deviceInfo = $"<DeviceInfo>{outputFormat}{encodingFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
+				if (model.EnablePaging)
+				{
+					deviceInfo = $"<DeviceInfo>{outputFormat}{encodingFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
+				}
+				else
+				{
+					deviceInfo = $"<DeviceInfo>{outputFormat}{encodingFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
+				}
 			}
 
 			var reportParameters = new List<ReportServiceExecution.ParameterValue>();
@@ -95,11 +102,20 @@ namespace AlanJuden.MvcReportViewer
 				executionInfo = service.LoadReport(model.ReportPath, historyID);
 				service.SetExecutionParameters(reportParameters.ToArray(), "en-us");
 
-				var result = service.Render2(format, deviceInfo, ReportServiceExecution.PageCountMode.Actual, out extension, out mimeType, out encoding, out warnings, out streamIDs);
+				if (model.EnablePaging)
+				{
+					var result = service.Render2(format, deviceInfo, ReportServiceExecution.PageCountMode.Actual, out extension, out mimeType, out encoding, out warnings, out streamIDs);
+
+					exportResult.ReportData = result;
+				}
+				else
+				{
+					var result = service.Render(format, deviceInfo, out extension, out mimeType, out encoding, out warnings, out streamIDs);
+
+					exportResult.ReportData = result;
+				}
 
 				executionInfo = service.GetExecutionInfo();
-
-				exportResult.ReportData = result;
 			}
 			catch (Exception ex)
 			{

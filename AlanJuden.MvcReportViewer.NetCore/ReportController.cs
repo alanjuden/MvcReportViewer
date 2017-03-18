@@ -203,6 +203,16 @@ namespace AlanJuden.MvcReportViewer
 			var model = new ReportViewerModel();
 			model.AjaxLoadInitialReport = this.AjaxLoadInitialReport;
 			model.Credentials = this.NetworkCredentials;
+
+			var enablePagingResult = _getRequestValue(request, "ReportViewerEnablePaging");
+			if (enablePagingResult.HasValue())
+			{
+				model.EnablePaging = enablePagingResult.ToBoolean();
+			}
+			else
+			{
+				model.EnablePaging = true;
+			}
 			model.Encoding = this.Encoding;
 			model.ServerUrl = this.ReportServerUrl;
 			model.ReportImagePath = this.ReportImagePath;
@@ -210,6 +220,32 @@ namespace AlanJuden.MvcReportViewer
 			model.BuildParameters(Request);
 
 			return model;
+		}
+
+		private string _getRequestValue(HttpRequest request, string key)
+		{
+			if (request.Query != null && request.Query.Keys != null && request.Query.Keys.Contains(key))
+			{
+				var values = request.Query[key].ToSafeString().Split(',');
+				if (values != null && values.Count() > 0)
+				{
+					return values[0].ToSafeString();
+				}
+			}
+
+			try
+			{
+				if (request.Form != null && request.Form.Keys != null && request.Form.Keys.Contains(key))
+				{
+					return request.Form[key].ToSafeString();
+				}
+			}
+			catch
+			{
+				//No need to throw errors, just no Form was passed in and it's unhappy about that
+			}
+
+			return String.Empty;
 		}
 	}
 }

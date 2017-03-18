@@ -82,7 +82,14 @@ namespace AlanJuden.MvcReportViewer
 			var deviceInfo = $"<DeviceInfo>{outputFormat}{encodingFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
 			if (model.ViewMode == ReportViewModes.View && startPage.HasValue && startPage > 0)
 			{
-				deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
+				if (model.EnablePaging)
+				{
+					deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}<Section>{startPage}</Section></DeviceInfo>";
+				}
+				else
+				{
+					deviceInfo = $"<DeviceInfo>{outputFormat}<Toolbar>False</Toolbar>{htmlFragment}</DeviceInfo>";
+				}
 			}
 
 			var reportParameters = new List<ReportServiceExecution.ParameterValue>();
@@ -124,18 +131,34 @@ namespace AlanJuden.MvcReportViewer
 				
 				var executionParameterResult = service.SetReportParameters(executionInfo.ExecutionID, reportParameters.ToArray(), "en-us").Result;
 
-				var renderRequest = new ReportServiceExecution.Render2Request(format, deviceInfo, ReportServiceExecution.PageCountMode.Actual);
-				var result = service.Render2(executionInfo.ExecutionID, renderRequest).Result;
+				if (model.EnablePaging)
+				{
+					var renderRequest = new ReportServiceExecution.Render2Request(format, deviceInfo, ReportServiceExecution.PageCountMode.Actual);
+					var result = service.Render2(executionInfo.ExecutionID, renderRequest).Result;
 
-				extension = result.Extension;
-				mimeType = result.MimeType;
-				encoding = result.Encoding;
-				warnings = result.Warnings;
-				streamIDs = result.StreamIds;
+					extension = result.Extension;
+					mimeType = result.MimeType;
+					encoding = result.Encoding;
+					warnings = result.Warnings;
+					streamIDs = result.StreamIds;
+
+					exportResult.ReportData = result.Result;
+				}
+				else
+				{
+					var renderRequest = new ReportServiceExecution.RenderRequest(format, deviceInfo);
+					var result = service.Render(executionInfo.ExecutionID, renderRequest).Result;
+
+					extension = result.Extension;
+					mimeType = result.MimeType;
+					encoding = result.Encoding;
+					warnings = result.Warnings;
+					streamIDs = result.StreamIds;
+
+					exportResult.ReportData = result.Result;
+				}
 
 				executionInfo = service.GetExecutionInfo(executionHeader.ExecutionID).Result;
-
-				exportResult.ReportData = result.Result;
 			}
 			catch (Exception ex)
 			{

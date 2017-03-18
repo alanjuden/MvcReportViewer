@@ -69,6 +69,8 @@ namespace AlanJuden.MvcReportViewer
 					}
 				}
 
+				sb.AppendLine($"			<input type='hidden' id='ReportViewerEnablePaging' name='ReportViewerEnablePaging' value='{model.EnablePaging}' />");
+
 				sb.AppendLine("					</div>");
 			}
 
@@ -82,17 +84,21 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("			<div class='ReportViewerToolbar row'>");
 			sb.AppendLine("				<div class='ReportViewerPager'>");
 			sb.AppendLine("					<div class='btn-toolbar'>");
-			sb.AppendLine("						<div class='btn-group'>");
-			sb.AppendLine($"							<a href='#' title='First Page' class='btn btn-default FirstPage'{(contentData.TotalPages == 1 ? " disabled='disabled'" : "")}><span class='glyphicon glyphicon-step-backward'></span></a>");
-			sb.AppendLine($"							<a href='#' title='Previous Page' class='btn btn-default PreviousPage'{(contentData.TotalPages == 1 ? " disabled='disabled'" : "")}><span class='glyphicon glyphicon-chevron-left'></span></a>");
-			sb.AppendLine("						</div>");
-			sb.AppendLine("						<div class='btn-group'>");
-			sb.AppendLine($"							<span class='PagerNumbers'><input type='text' id='ReportViewerCurrentPage' name='ReportViewerCurrentPage' class='form-control' value='{contentData.CurrentPage}' /> of <span id='ReportViewerTotalPages'>{contentData.TotalPages}</span></span>");
-			sb.AppendLine("						</div>");
-			sb.AppendLine("						<div class='btn-group'>");
-			sb.AppendLine($"							<a href='#' title='Next Page' class='btn btn-default NextPage'{(contentData.TotalPages == 1 ? " disabled='disabled'" : "")}><span class='glyphicon glyphicon-chevron-right'></span></a>");
-			sb.AppendLine($"							<a href='#' title='Last Page' class='btn btn-default LastPage'{(contentData.TotalPages == 1 ? " disabled='disabled'" : "")}><span class='glyphicon glyphicon-step-forward'></span></a>");
-			sb.AppendLine("						</div>");
+
+			if (model.EnablePaging)
+			{ 
+				sb.AppendLine("						<div class='btn-group'>");
+				sb.AppendLine($"							<a href='#' title='First Page' class='btn btn-default FirstPage'{(contentData.TotalPages == 1 ? " disabled='disabled'" : "")}><span class='glyphicon glyphicon-step-backward'></span></a>");
+				sb.AppendLine($"							<a href='#' title='Previous Page' class='btn btn-default PreviousPage'{(contentData.TotalPages == 1 ? " disabled='disabled'" : "")}><span class='glyphicon glyphicon-chevron-left'></span></a>");
+				sb.AppendLine("						</div>");
+				sb.AppendLine("						<div class='btn-group'>");
+				sb.AppendLine($"							<span class='PagerNumbers'><input type='text' id='ReportViewerCurrentPage' name='ReportViewerCurrentPage' class='form-control' value='{contentData.CurrentPage}' /> of <span id='ReportViewerTotalPages'>{contentData.TotalPages}</span></span>");
+				sb.AppendLine("						</div>");
+				sb.AppendLine("						<div class='btn-group'>");
+				sb.AppendLine($"							<a href='#' title='Next Page' class='btn btn-default NextPage'{(contentData.TotalPages == 1 ? " disabled='disabled'" : "")}><span class='glyphicon glyphicon-chevron-right'></span></a>");
+				sb.AppendLine($"							<a href='#' title='Last Page' class='btn btn-default LastPage'{(contentData.TotalPages == 1 ? " disabled='disabled'" : "")}><span class='glyphicon glyphicon-step-forward'></span></a>");
+				sb.AppendLine("						</div>");
+			}
 			sb.AppendLine("						<div class='btn-group'>");
 			sb.AppendLine("							<span class='SearchText'>");
 			sb.AppendLine($"								<input type='text' id='ReportViewerSearchText' name='ReportViewerSearchText' class='form-control' value='' />");

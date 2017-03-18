@@ -149,12 +149,12 @@ namespace AlanJuden.MvcReportViewer
 
 		public static string HtmlEncode(this string text)
 		{
-			return System.Net.WebUtility.HtmlEncode(text.ToSafeString());
+			return System.Text.Encodings.Web.HtmlEncoder.Default.Encode(text.ToSafeString());
 		}
 
 		public static string UrlEncode(this string text)
 		{
-			return System.Net.WebUtility.UrlEncode(text.ToSafeString());
+			return System.Text.Encodings.Web.UrlEncoder.Default.Encode(text.ToSafeString());
 		}
 
 		public static string HtmlDecode(this string text)

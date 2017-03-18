@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace AlanJuden.MvcReportViewer
@@ -192,6 +193,17 @@ namespace AlanJuden.MvcReportViewer
 			var model = new ReportViewerModel();
 			model.AjaxLoadInitialReport = this.AjaxLoadInitialReport;
 			model.Credentials = this.NetworkCredentials;
+
+			var enablePagingResult = _getRequestValue(request, "ReportViewerEnablePaging");
+			if (enablePagingResult.HasValue())
+			{
+				model.EnablePaging = enablePagingResult.ToBoolean();
+			}
+			else
+			{
+				model.EnablePaging = true;
+			}
+
 			model.Encoding = this.Encoding;
 			model.ServerUrl = this.ReportServerUrl;
 			model.ReportImagePath = this.ReportImagePath;
@@ -200,5 +212,28 @@ namespace AlanJuden.MvcReportViewer
 
 			return model;
 		}
+		private string _getRequestValue(HttpRequestBase request, string key)
+		{
+			var values = request.QueryString.GetValues(key);
+			if (values != null && values.Length > 0)
+			{
+				return values[0].ToSafeString();
+			}
+
+			try
+			{
+				if (request.Form != null && request.Form.Keys != null && request.Form[key] != null)
+				{
+					return request.Form[key].ToSafeString();
+				}
+			}
+			catch
+			{
+				//No need to throw errors, just no Form was passed in and it's unhappy about that
+			}
+
+			return String.Empty;
+		}
+
 	}
 }
