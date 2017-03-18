@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AlanJuden.MvcReportViewer.NetCore</id>
-    <version>1.0.5.0</version>
+    <version>1.0.6.0</version>
     <title>AlanJuden.MvcReportViewer.NetCore</title>
     <authors>alanjuden</authors>
     <owners>alanjuden</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/alanjuden/MvcReportViewer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NetCore Custom Report Viewer control to replace MS Report Viewer on MVC projects (*this is for .NetCore projects only*)</description>
-    <releaseNotes>Fixed the "find in report" because it wasn't functioning properly. Fixed an issue with Unicode report names not being treated properly. Changed the progress icon from cog to refresh. Attempted a fix for HTTPS SSRS servers.</releaseNotes>
+    <releaseNotes>Added the ability to "Enable Paging" which can enable / disable the pager as well as show all report pages on a single page. Moved the dictionary of valid values into a list to avoid name collisions. Fixed an issue with UrlEncode on .NetCore.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>SSRS ReportViewer MVC Report Viewer Reporting HtmlHelpers Helpers NetCore</tags>
   </metadata>
