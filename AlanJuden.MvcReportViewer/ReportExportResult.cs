@@ -41,7 +41,7 @@ namespace AlanJuden.MvcReportViewer
 					{
 						foreach (var validValue in definedReportParameter.ValidValues)
 						{
-							reportParameter.ValidValues.Add(validValue.Label, validValue.Value);
+							reportParameter.ValidValues.Add(new ValidValue(validValue.Label, validValue.Value));
 						}
 					}
 

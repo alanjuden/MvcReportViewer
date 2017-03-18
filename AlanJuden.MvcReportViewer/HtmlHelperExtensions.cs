@@ -33,7 +33,7 @@ namespace AlanJuden.MvcReportViewer
 						sb.AppendLine($"						<select id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(reportParameter.MultiValue == true ? "multiple='multiple'" : "")}>");
 						foreach (var value in reportParameter.ValidValues)
 						{
-							sb.AppendLine($"							<option value='{value.Value}' {(reportParameter.SelectedValues.Contains(value.Value) ? "selected='selected'" : "")}>{value.Key}</option>");
+							sb.AppendLine($"							<option value='{value.Value}' {(reportParameter.SelectedValues.Contains(value.Value) ? "selected='selected'" : "")}>{value.Label}</option>");
 						}
 						sb.AppendLine($"						</select>");
 					}

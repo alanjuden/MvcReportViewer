@@ -7,7 +7,7 @@ namespace AlanJuden.MvcReportViewer
 		public string Name { get; set; }
 		public string Prompt { get; set; }
 		public bool MultiValue { get; set; }
-		public Dictionary<string, string> ValidValues { get; set; }
+		public List<ValidValue> ValidValues { get; set; }
 		public List<string> SelectedValues { get; set; }
 		public ReportService.ParameterTypeEnum Type { get; set; }
 		public bool PromptUser { get; set; }
@@ -15,8 +15,25 @@ namespace AlanJuden.MvcReportViewer
 
 		public ReportParameterInfo()
 		{
-			this.ValidValues = new Dictionary<string, string>();
+			this.ValidValues = new List<ValidValue>();
 			this.SelectedValues = new List<string>();
+		}
+	}
+
+	public class ValidValue
+	{
+		public string Label { get; set; }
+		public string Value { get; set; }
+
+		public ValidValue()
+		{
+
+		}
+
+		public ValidValue(string label, string value)
+		{
+			this.Label = label;
+			this.Value = value;
 		}
 	}
 }
