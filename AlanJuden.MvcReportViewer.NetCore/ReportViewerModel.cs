@@ -67,6 +67,8 @@ namespace AlanJuden.MvcReportViewer
 
 		public void AddParameter(string name, string[] values)
 		{
+			if (!name.HasValue()) { return; }
+
 			if (this.Parameters.ContainsKey(name))
 			{
 				this.Parameters[name] = values;
