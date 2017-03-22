@@ -25,6 +25,14 @@ namespace AlanJuden.MvcReportViewer
 			}
 		}
 
+		protected virtual int? Timeout
+		{
+			get
+			{
+				return null;
+			}
+		}
+
 		public JsonResult ViewReportPage(string reportPath, int? page = 0)
 		{
 			var model = this.GetReportViewerModel(Request);
@@ -207,6 +215,7 @@ namespace AlanJuden.MvcReportViewer
 			model.Encoding = this.Encoding;
 			model.ServerUrl = this.ReportServerUrl;
 			model.ReportImagePath = this.ReportImagePath;
+			model.Timeout = this.Timeout;
 			model.UseCustomReportImagePath = this.UseCustomReportImagePath;
 			model.BuildParameters(Request);
 
