@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AlanJuden.MvcReportViewer</id>
-    <version>1.0.6.0</version>
+    <version>1.0.7.0</version>
     <title>AlanJuden.MvcReportViewer</title>
     <authors>alanjuden</authors>
     <owners>alanjuden</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/alanjuden/MvcReportViewer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Custom Report Viewer control to replace MS Report Viewer on MVC projects</description>
-    <releaseNotes>Added the ability to "Enable Paging" which can enable / disable the pager as well as show all report pages on a single page. Moved the dictionary of valid values into a list to avoid name collisions.</releaseNotes>
+    <releaseNotes>Fixed an issue with reports that use no parameters blowing up when attempting to build the parameters from the request. Added a timeout property to allow specifying a timeout for the report execution time.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>SSRS ReportViewer MVC Report Viewer Reporting HtmlHelpers Helpers</tags>
   </metadata>
