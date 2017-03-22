@@ -6,11 +6,35 @@ namespace AlanJuden.MvcReportViewer
 {
 	public static class ReportServiceHelpers
 	{
-		public static ReportService.ReportParameter[] GetReportParameters(ReportViewerModel model, bool forRendering = false)
+		private static ReportService.ReportingService2005 _initializeReportingService(ReportViewerModel model)
 		{
 			var service = new ReportService.ReportingService2005();
 			service.Url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportService2005.asmx";
 			service.Credentials = model.Credentials ?? System.Net.CredentialCache.DefaultCredentials;
+			if (model.Timeout.HasValue)
+			{
+				service.Timeout = model.Timeout.Value;
+			}
+
+			return service;
+		}
+
+		private static ReportServiceExecution.ReportExecutionService _initializeReportExecutionService(ReportViewerModel model)
+		{
+			var service = new ReportServiceExecution.ReportExecutionService();
+			service.Url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
+			service.Credentials = model.Credentials ?? System.Net.CredentialCache.DefaultCredentials;
+			if (model.Timeout.HasValue)
+			{
+				service.Timeout = model.Timeout.Value;
+			}
+
+			return service;
+		}
+
+		public static ReportService.ReportParameter[] GetReportParameters(ReportViewerModel model, bool forRendering = false)
+		{
+			var service = _initializeReportingService(model);
 
 			string historyID = null;
 			ReportService.ParameterValue[] values = null;
@@ -28,10 +52,7 @@ namespace AlanJuden.MvcReportViewer
 
 		public static ReportExportResult ExportReportToFormat(ReportViewerModel model, string format, int? startPage = 0, int? endPage = 0)
 		{
-			var service = new ReportServiceExecution.ReportExecutionService();
-			service.Url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
-			service.Credentials = model.Credentials ?? System.Net.CredentialCache.DefaultCredentials;
-
+			var service = _initializeReportExecutionService(model);
 			var definedReportParameters = GetReportParameters(model, true);
 
 			var exportResult = new ReportExportResult();
@@ -145,9 +166,7 @@ namespace AlanJuden.MvcReportViewer
 		/// <returns></returns>
 		public static int? FindStringInReport(ReportViewerModel model, string searchText, int? startPage = 0)
 		{
-			var service = new ReportServiceExecution.ReportExecutionService();
-			service.Url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
-			service.Credentials = model.Credentials ?? System.Net.CredentialCache.DefaultCredentials;
+			var service = _initializeReportExecutionService(model);
 
 			var definedReportParameters = GetReportParameters(model, true);
 

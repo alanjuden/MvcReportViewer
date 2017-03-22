@@ -52,6 +52,7 @@ namespace AlanJuden.MvcReportViewer
 		/// Setting this to 'true' enables the paging control and renders a single page at a time. Setting this to 'false' removes the paging control and shows all pages at once.
 		/// </summary>
 		public bool EnablePaging { get; set; }
+		public int? Timeout { get; set; }
 
 		public ReportViewerModel()
 		{

@@ -8,21 +8,55 @@ namespace AlanJuden.MvcReportViewer
 {
 	public static class ReportServiceHelpers
 	{
-		private static System.ServiceModel.HttpBindingBase _initializeHttpBinding(string url)
+		private static System.ServiceModel.HttpBindingBase _initializeHttpBinding(string url, ReportViewerModel model)
 		{
 			if (url.ToLower().StartsWith("https"))
 			{
 				var binding = new System.ServiceModel.BasicHttpsBinding(System.ServiceModel.BasicHttpsSecurityMode.Transport);
-				binding.Security.Transport.ClientCredentialType = System.ServiceModel.HttpClientCredentialType.Windows;
+				binding.Security.Transport.ClientCredentialType = model.ClientCredentialType;
 				binding.MaxReceivedMessageSize = int.MaxValue;
+				if (model.Timeout.HasValue)
+				{
+					if (model.Timeout == System.Threading.Timeout.Infinite)
+					{
+						binding.CloseTimeout = TimeSpan.MaxValue;
+						binding.OpenTimeout = TimeSpan.MaxValue;
+						binding.ReceiveTimeout = TimeSpan.MaxValue;
+						binding.SendTimeout = TimeSpan.MaxValue;
+					}
+					else
+					{
+						binding.CloseTimeout = new TimeSpan(0, 0, model.Timeout.Value);
+						binding.OpenTimeout = new TimeSpan(0, 0, model.Timeout.Value);
+						binding.ReceiveTimeout = new TimeSpan(0, 0, model.Timeout.Value);
+						binding.SendTimeout = new TimeSpan(0, 0, model.Timeout.Value);
+					}
+				}
 
 				return binding;
 			}
 			else
 			{
 				var binding = new System.ServiceModel.BasicHttpBinding(System.ServiceModel.BasicHttpSecurityMode.TransportCredentialOnly);
-				binding.Security.Transport.ClientCredentialType = System.ServiceModel.HttpClientCredentialType.Windows;
+				binding.Security.Transport.ClientCredentialType = model.ClientCredentialType;
 				binding.MaxReceivedMessageSize = int.MaxValue;
+				if (model.Timeout.HasValue)
+				{
+					if (model.Timeout == System.Threading.Timeout.Infinite)
+					{
+						binding.CloseTimeout = TimeSpan.MaxValue;
+						binding.OpenTimeout = TimeSpan.MaxValue;
+						binding.ReceiveTimeout = TimeSpan.MaxValue;
+						binding.SendTimeout = TimeSpan.MaxValue;
+					}
+					else
+					{
+						binding.CloseTimeout = new TimeSpan(0, 0, model.Timeout.Value);
+						binding.OpenTimeout = new TimeSpan(0, 0, model.Timeout.Value);
+						binding.ReceiveTimeout = new TimeSpan(0, 0, model.Timeout.Value);
+						binding.SendTimeout = new TimeSpan(0, 0, model.Timeout.Value);
+					}
+				}
 
 				return binding;
 			}
@@ -32,7 +66,7 @@ namespace AlanJuden.MvcReportViewer
 		{
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportService2005.asmx";
 
-			var basicHttpBinding = _initializeHttpBinding(url);
+			var basicHttpBinding = _initializeHttpBinding(url, model);
 			var service = new ReportService.ReportingService2005SoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
 			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
@@ -57,7 +91,7 @@ namespace AlanJuden.MvcReportViewer
 
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
 
-			var basicHttpBinding = _initializeHttpBinding(url);
+			var basicHttpBinding = _initializeHttpBinding(url, model);
 			var service = new ReportServiceExecution.ReportExecutionServiceSoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
 			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
@@ -190,7 +224,7 @@ namespace AlanJuden.MvcReportViewer
 		{
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
 
-			var basicHttpBinding = _initializeHttpBinding(url);
+			var basicHttpBinding = _initializeHttpBinding(url, model);
 			var service = new ReportServiceExecution.ReportExecutionServiceSoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
 			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);

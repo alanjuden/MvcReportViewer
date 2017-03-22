@@ -31,6 +31,14 @@ namespace AlanJuden.MvcReportViewer
 			}
 		}
 
+		protected virtual System.ServiceModel.HttpClientCredentialType ClientCredentialType
+		{
+			get
+			{
+				return System.ServiceModel.HttpClientCredentialType.Windows;
+			}
+		}
+
 		public JsonResult ViewReportPage(string reportPath, int? page = 0)
 		{
 			var model = this.GetReportViewerModel(Request);
@@ -202,6 +210,7 @@ namespace AlanJuden.MvcReportViewer
 		{
 			var model = new ReportViewerModel();
 			model.AjaxLoadInitialReport = this.AjaxLoadInitialReport;
+			model.ClientCredentialType = this.ClientCredentialType;
 			model.Credentials = this.NetworkCredentials;
 
 			var enablePagingResult = _getRequestValue(request, "ReportViewerEnablePaging");
