@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AlanJuden.MvcReportViewer.NetCore</id>
-    <version>1.0.7.0</version>
+    <version>1.0.8.0</version>
     <title>AlanJuden.MvcReportViewer.NetCore</title>
     <authors>alanjuden</authors>
     <owners>alanjuden</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/alanjuden/MvcReportViewer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NetCore Custom Report Viewer control to replace MS Report Viewer on MVC projects (*this is for .NetCore projects only*)</description>
-    <releaseNotes>Fixed an issue with reports that use no parameters blowing up when attempting to build the parameters from the request. Added a timeout property to allow specifying a timeout for the report execution time. Added a property to the .NetCore side to allow passing in the ClientCredentialType so that people can switch easier between Windows and Ntlm (this will be an override on your report controller).</releaseNotes>
+    <releaseNotes>Added support for cascading parameters to reload values.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>SSRS ReportViewer MVC Report Viewer Reporting HtmlHelpers Helpers NetCore</tags>
   </metadata>

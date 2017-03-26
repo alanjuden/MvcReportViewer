@@ -22,7 +22,7 @@
 	<script type="text/javascript" src="~/Scripts/jquery.highlight-5.js"></script>
 	<script type="text/javascript">
 			$(document).ready(function () {
-				$('select').select2();
+				_initializeReportViewerControls();
 
 				$('.FirstPage, .ViewReport, .Refresh').click(function () {
 					if (!$(this).attr('disabled')) {
@@ -67,7 +67,7 @@
 				$('#ReportViewerSearchText').on("keypress", function (e) {
 					if (e.keyCode == 13) {
 						// Cancel the default action on keypress event
-						e.preventDefault(); 
+						e.preventDefault();
 						findText();
 					}
 				});
@@ -80,6 +80,33 @@
 					printReport();
 				});
 			});
+
+			function _initializeReportViewerControls() {
+				$('select').select2();
+
+				try {
+					ReportViewer_Register_OnChanges();
+				} catch (e) { }
+			}
+
+			function reloadParameters() {
+				var params = $('.ParametersContainer :input').serializeArray();
+				var urlParams = $.param(params);
+
+				showLoadingProgress("Updating Parameters...");
+
+				$.get("/Report/ReloadParameters/?reportPath=@Model.ReportPath.UrlEncode()&" + urlParams).done(function (data) {
+					if (data != null) {
+						$('.Parameters').html(data);
+						_initializeReportViewerControls();
+
+						if ($('.ReportViewerContent').find('div').length != 1) {
+							$('.ReportViewerContent').html('<div class="ReportViewerInformation">Please fill parameters and run the report...</div>');
+						}
+					}
+					hideLoadingProgress();
+				});
+			}
 
 			function showLoadingProgress(message) {
 				hideLoadingProgress();

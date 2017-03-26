@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v1.6": {},
     ".NETStandard,Version=v1.6/": {
-      "AlanJuden.MvcReportViewer.NetCore/1.0.7": {
+      "AlanJuden.MvcReportViewer.NetCore/1.0.8": {
         "dependencies": {
           "System.ServiceModel.Duplex": "4.0.1",
           "System.ServiceModel.Http": "4.1.0",
@@ -1853,7 +1853,7 @@
     }
   },
   "libraries": {
-    "AlanJuden.MvcReportViewer.NetCore/1.0.7": {
+    "AlanJuden.MvcReportViewer.NetCore/1.0.8": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
