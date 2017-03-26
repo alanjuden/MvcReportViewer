@@ -79,16 +79,17 @@ namespace AlanJuden.MvcReportViewer
 			}
 		}
 
+		private static List<string> KEYS_TO_IGNORE = new List<string>() { "ReportViewerEnablePaging", "reportPath", "startPage", "searchText", "page" };
 		private static string[] VALUE_SEPARATORS = new string[] { "," };
 
 		public void BuildParameters(HttpRequestBase request)
 		{
-			foreach (var key in request.QueryString.AllKeys)
+			foreach (var key in request.QueryString.AllKeys.Where(x => !KEYS_TO_IGNORE.Contains(x)))
 			{
 				this.AddParameter(key, request.QueryString[key].ToSafeString().ToStringList(VALUE_SEPARATORS).ToArray());
 			}
 
-			foreach (var key in request.Form.AllKeys)
+			foreach (var key in request.Form.AllKeys.Where(x => !KEYS_TO_IGNORE.Contains(x)))
 			{
 				this.AddParameter(key, request.Form[key].ToSafeString().ToStringList(VALUE_SEPARATORS).ToArray());
 			}

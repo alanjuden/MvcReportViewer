@@ -129,6 +129,15 @@ namespace AlanJuden.MvcReportViewer
 			return Json(ReportServiceHelpers.FindStringInReport(model, searchText, page).ToInt32(), JsonRequestBehavior.AllowGet);
 		}
 
+		public JsonResult ReloadParameters(string reportPath)
+		{
+			var model = this.GetReportViewerModel(Request);
+			model.ViewMode = ReportViewModes.View;
+			model.ReportPath = reportPath;
+
+			return Json(AlanJuden.MvcReportViewer.HtmlHelperExtensions.ParametersToHtmlString(null, model), JsonRequestBehavior.AllowGet);
+		}
+
 		public ActionResult PrintReport(string reportPath)
 		{
 			var model = this.GetReportViewerModel(Request);

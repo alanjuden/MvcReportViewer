@@ -34,6 +34,7 @@ namespace AlanJuden.MvcReportViewer
 				{
 					var reportParameter = new ReportParameterInfo();
 					reportParameter.AllowBlank = definedReportParameter.AllowBlank;
+					reportParameter.Dependencies = definedReportParameter.Dependencies;
 					reportParameter.MultiValue = definedReportParameter.MultiValue;
 					reportParameter.Name = definedReportParameter.Name;
 					reportParameter.Prompt = definedReportParameter.Prompt;

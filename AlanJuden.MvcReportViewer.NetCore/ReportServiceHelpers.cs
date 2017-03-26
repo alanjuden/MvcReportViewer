@@ -75,6 +75,25 @@ namespace AlanJuden.MvcReportViewer
 			ReportService.ParameterValue[] values = null;
 			ReportService.DataSourceCredentials[] rsCredentials = null;
 
+			if (model != null && model.Parameters != null && model.Parameters.Any())
+			{
+				var tempParameters = new List<ReportService.ParameterValue>();
+				foreach (var parameter in model.Parameters)
+				{
+					foreach (var value in parameter.Value.Where(x => !String.IsNullOrEmpty(x)))
+					{
+						tempParameters.Add(new ReportService.ParameterValue()
+						{
+							Label = parameter.Key,
+							Name = parameter.Key,
+							Value = value
+						});
+					}
+				}
+
+				values = tempParameters.ToArray();
+			}
+
 			var parameters = service.GetReportParametersAsync(model.ReportPath, historyID, forRendering, values, rsCredentials).Result;
 
 			return parameters;

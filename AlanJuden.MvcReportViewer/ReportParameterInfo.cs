@@ -11,7 +11,8 @@ namespace AlanJuden.MvcReportViewer
 		public List<string> SelectedValues { get; set; }
 		public ReportService.ParameterTypeEnum Type { get; set; }
 		public bool PromptUser { get; set; }
-		public bool AllowBlank { get; internal set; }
+		public bool AllowBlank { get; set; }
+		public string[] Dependencies { get; set; }
 
 		public ReportParameterInfo()
 		{

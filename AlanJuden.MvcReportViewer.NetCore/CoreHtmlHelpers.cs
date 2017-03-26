@@ -22,57 +22,8 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("		<div class='ReportViewerHeader row'>");
 			sb.AppendLine("			<div class='ParametersContainer col-sm-12'>");
 			sb.AppendLine("				<div class='Parameters col-sm-10'>");
-			//Parameters start
-			foreach (var reportParameter in contentData.Parameters)
-			{
-				sb.AppendLine("					<div class='Parameter col-md-6 col-sm-12'>");
-				if (reportParameter.PromptUser || model.ShowHiddenParameters)
-				{
-					sb.AppendLine($"						<div class='col-sm-4'><label for='{reportParameter.Name}'>{reportParameter.Prompt}</label></div>");
 
-					sb.AppendLine("							<div class='col-sm-8'>");
-					if (reportParameter.ValidValues != null && reportParameter.ValidValues.Any())
-					{
-						sb.AppendLine($"						<select id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(reportParameter.MultiValue == true ? "multiple='multiple'" : "")}>");
-						foreach (var value in reportParameter.ValidValues)
-						{
-							sb.AppendLine($"							<option value='{value.Value}' {(reportParameter.SelectedValues.Contains(value.Value) ? "selected='selected'" : "")}>{value.Label}</option>");
-						}
-						sb.AppendLine($"						</select>");
-					}
-					else
-					{
-						var selectedValue = reportParameter.SelectedValues.FirstOrDefault();
-
-						if (reportParameter.Type == ReportService.ParameterTypeEnum.Boolean)
-						{
-							sb.AppendLine($"						<input type='checkbox' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(selectedValue.ToBoolean() ? "checked='checked'" : "")} />");
-						}
-						else if (reportParameter.Type == ReportService.ParameterTypeEnum.DateTime)
-						{
-							sb.AppendLine($"						<input type='datetime' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' value='{selectedValue}' />");
-						}
-						else
-						{
-							sb.AppendLine($"						<input type='text' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' value='{selectedValue}' />");
-						}
-					}
-
-					sb.AppendLine("							</div>");
-				}
-				else
-				{
-					if (reportParameter.SelectedValues != null && reportParameter.SelectedValues.Any())
-					{
-						var values = reportParameter.SelectedValues.Where(x => x != null).Select(x => x).ToArray();
-						sb.AppendLine($"			<input type='hidden' id='{reportParameter.Name}' name='{reportParameter.Name}' value='{String.Join(",", values)}' />");
-					}
-				}
-
-				sb.AppendLine($"			<input type='hidden' id='ReportViewerEnablePaging' name='ReportViewerEnablePaging' value='{model.EnablePaging}' />");
-
-				sb.AppendLine("					</div>");
-			}
+			sb.AppendLine(ParametersToHtmlString(contentData.Parameters, model));
 
 			sb.AppendLine("				</div>");
 
@@ -168,7 +119,100 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("	</div>");
 			sb.AppendLine("</form>");
 
+			sb.AppendLine("<script type='text/javascript'>");
+			sb.AppendLine("	function ReportViewer_Register_OnChanges() {");
+
+			var dependencyFieldKeys = new List<string>();
+			foreach (var parameter in contentData.Parameters.Where(x => x.Dependencies != null && x.Dependencies.Any()))
+			{
+				foreach (var key in parameter.Dependencies)
+				{
+					if (!dependencyFieldKeys.Contains(key))
+					{
+						dependencyFieldKeys.Add(key);
+					}
+				}
+			}
+
+			foreach (var queryParameter in contentData.Parameters.Where(x => dependencyFieldKeys.Contains(x.Name)))
+			{
+				sb.AppendLine("		$('#" + queryParameter.Name + "').change(function () {");
+				sb.AppendLine("			reloadParameters();");
+				sb.AppendLine("		});");
+			}
+
+			sb.AppendLine("	}");
+
+			sb.AppendLine("</script>");
+
 			return new HtmlString(sb.ToString());
+		}
+
+		public static string ParametersToHtmlString(System.Collections.Generic.List<ReportParameterInfo> parameters, ReportViewerModel model)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			if (parameters == null)
+			{
+				var contentData = new ReportExportResult();
+				var definedParameters = ReportServiceHelpers.GetReportParameters(model, true);
+				contentData.SetParameters(definedParameters, model.Parameters);
+				parameters = contentData.Parameters;
+			}
+
+			//Parameters start
+			foreach (var reportParameter in parameters)
+			{
+				sb.AppendLine("					<div class='Parameter col-md-6 col-sm-12'>");
+				if (reportParameter.PromptUser || model.ShowHiddenParameters)
+				{
+					sb.AppendLine($"						<div class='col-sm-4'><label for='{reportParameter.Name}'>{reportParameter.Prompt}</label></div>");
+
+					sb.AppendLine("							<div class='col-sm-8'>");
+					if (reportParameter.ValidValues != null && reportParameter.ValidValues.Any())
+					{
+						sb.AppendLine($"						<select id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(reportParameter.MultiValue == true ? "multiple='multiple'" : "")}>");
+						foreach (var value in reportParameter.ValidValues)
+						{
+							sb.AppendLine($"							<option value='{value.Value}' {(reportParameter.SelectedValues.Contains(value.Value) ? "selected='selected'" : "")}>{value.Label}</option>");
+						}
+						sb.AppendLine($"						</select>");
+					}
+					else
+					{
+						var selectedValue = reportParameter.SelectedValues.FirstOrDefault();
+
+						if (reportParameter.Type == ReportService.ParameterTypeEnum.Boolean)
+						{
+							sb.AppendLine($"						<input type='checkbox' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(selectedValue.ToBoolean() ? "checked='checked'" : "")} />");
+						}
+						else if (reportParameter.Type == ReportService.ParameterTypeEnum.DateTime)
+						{
+							sb.AppendLine($"						<input type='datetime' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' value='{selectedValue}' />");
+						}
+						else
+						{
+							sb.AppendLine($"						<input type='text' id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' value='{selectedValue}' />");
+						}
+					}
+
+					sb.AppendLine("							</div>");
+				}
+				else
+				{
+					if (reportParameter.SelectedValues != null && reportParameter.SelectedValues.Any())
+					{
+						var values = reportParameter.SelectedValues.Where(x => x != null).Select(x => x).ToArray();
+						sb.AppendLine($"			<input type='hidden' id='{reportParameter.Name}' name='{reportParameter.Name}' value='{String.Join(",", values)}' />");
+					}
+				}
+
+				sb.AppendLine($"			<input type='hidden' id='ReportViewerEnablePaging' name='ReportViewerEnablePaging' value='{model.EnablePaging}' />");
+
+				sb.AppendLine("					</div>");
+			}
+
+			return sb.ToString();
 		}
 	}
 }
