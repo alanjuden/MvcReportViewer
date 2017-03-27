@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AlanJuden.MvcReportViewer.NetCore</id>
-    <version>1.0.8.0</version>
+    <version>1.0.9.0</version>
     <title>AlanJuden.MvcReportViewer.NetCore</title>
     <authors>alanjuden</authors>
     <owners>alanjuden</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/alanjuden/MvcReportViewer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NetCore Custom Report Viewer control to replace MS Report Viewer on MVC projects (*this is for .NetCore projects only*)</description>
-    <releaseNotes>Added support for cascading parameters to reload values.</releaseNotes>
+    <releaseNotes>Fixed an issue with boolean parameters not allowing for the false value (because it's not posted back to the server). Fixed the report export that was broken from build # 1.0.0.8.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>SSRS ReportViewer MVC Report Viewer Reporting HtmlHelpers Helpers NetCore</tags>
   </metadata>
