@@ -37,6 +37,7 @@ namespace AlanJuden.MvcReportViewer
 					reportParameter.Dependencies = definedReportParameter.Dependencies;
 					reportParameter.MultiValue = definedReportParameter.MultiValue;
 					reportParameter.Name = definedReportParameter.Name;
+					reportParameter.Nullable = definedReportParameter.Nullable;
 					reportParameter.Prompt = definedReportParameter.Prompt;
 					reportParameter.PromptUser = ((definedReportParameter.PromptUser && !definedReportParameter.Prompt.HasValue()) ? false : definedReportParameter.PromptUser);
 					reportParameter.Type = definedReportParameter.Type;
@@ -56,6 +57,12 @@ namespace AlanJuden.MvcReportViewer
 					else if (definedReportParameter.DefaultValues != null && definedReportParameter.DefaultValues.Any())
 					{
 						reportParameter.SelectedValues = definedReportParameter.DefaultValues.ToList();
+					}
+
+					if (!reportParameter.SelectedValues.Any() && reportParameter.Type == ReportService.ParameterTypeEnum.Boolean && !reportParameter.Nullable)
+					{
+						//Set the default value to false if it's a boolean parameter
+						reportParameter.SelectedValues = new List<string>() { "False" };
 					}
 
 					this.Parameters.Add(reportParameter);

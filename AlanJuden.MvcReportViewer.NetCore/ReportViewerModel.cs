@@ -81,7 +81,7 @@ namespace AlanJuden.MvcReportViewer
 			}
 		}
 
-		private static List<string> KEYS_TO_IGNORE = new List<string>() { "ReportViewerEnablePaging", "reportPath", "startPage", "searchText", "page" };
+		private static List<string> KEYS_TO_IGNORE = new List<string>() { "ReportViewerEnablePaging", "reportPath", "startPage", "searchText", "page", "format" };
 		private static string[] VALUE_SEPARATORS = new string[] { "," };
 
 		public void BuildParameters(HttpRequest request)

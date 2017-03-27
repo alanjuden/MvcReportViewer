@@ -17,6 +17,7 @@ namespace AlanJuden.MvcReportViewer
 		public bool PromptUser { get; set; }
 		public bool AllowBlank { get; set; }
 		public string[] Dependencies { get; set; }
+		public bool Nullable { get; internal set; }
 
 		public ReportParameterInfo()
 		{
