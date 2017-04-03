@@ -40,26 +40,33 @@ namespace AlanJuden.MvcReportViewer
 			ReportService.ParameterValue[] values = null;
 			ReportService.DataSourceCredentials[] rsCredentials = null;
 
+			var parameters = service.GetReportParameters(model.ReportPath, historyID, false, values, rsCredentials);	//set it to load the not for rendering so that it's hopefully quicker than the whole regular call
+
+			// Go through the parameters that have been provided to the model so we can load the real values for any cascading parameter values
 			if (model != null && model.Parameters != null && model.Parameters.Any())
 			{
 				var tempParameters = new List<ReportService.ParameterValue>();
-				foreach (var parameter in model.Parameters)
+				foreach (var parameter in parameters)
 				{
-					foreach (var value in parameter.Value.Where(x => !String.IsNullOrEmpty(x)))
+					var providedParameter = model.Parameters[parameter.Name];
+					if (providedParameter != null)
 					{
-						tempParameters.Add(new ReportService.ParameterValue()
+						foreach (var value in providedParameter.Where(x => !String.IsNullOrEmpty(x)))
 						{
-							Label = parameter.Key,
-							Name = parameter.Key,
-							Value = value
-						});
+							tempParameters.Add(new ReportService.ParameterValue()
+							{
+								Label = parameter.Name,
+								Name = parameter.Name,
+								Value = value
+							});
+						}
 					}
 				}
 
 				values = tempParameters.ToArray();
 			}
 
-			var parameters = service.GetReportParameters(model.ReportPath, historyID, forRendering, values, rsCredentials);
+			parameters = service.GetReportParameters(model.ReportPath, historyID, forRendering, values, rsCredentials);
 
 			return parameters;
 		}
