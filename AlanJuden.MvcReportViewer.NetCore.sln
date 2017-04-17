@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AlanJuden.MvcReportViewer.ExampleWebsite.NetCore", "AlanJuden.MvcReportViewer.ExampleWebsite.NetCore\AlanJuden.MvcReportViewer.ExampleWebsite.NetCore.xproj", "{EB181C1B-6A81-4DC3-93EA-8A16A007FA87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlanJuden.MvcReportViewer.ExampleWebsite.NetCore", "AlanJuden.MvcReportViewer.ExampleWebsite.NetCore\AlanJuden.MvcReportViewer.ExampleWebsite.NetCore.csproj", "{EB181C1B-6A81-4DC3-93EA-8A16A007FA87}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AlanJuden.MvcReportViewer.NetCore", "AlanJuden.MvcReportViewer.NetCore\AlanJuden.MvcReportViewer.NetCore.xproj", "{D911DA30-3023-413C-97AC-E4901B1CEB7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlanJuden.MvcReportViewer.NetCore", "AlanJuden.MvcReportViewer.NetCore\AlanJuden.MvcReportViewer.NetCore.csproj", "{D911DA30-3023-413C-97AC-E4901B1CEB7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
