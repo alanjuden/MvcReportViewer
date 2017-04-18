@@ -82,8 +82,9 @@ namespace AlanJuden.MvcReportViewer
 				var tempParameters = new List<ReportService.ParameterValue>();
 				foreach (var parameter in parameters)
 				{
-					var providedParameter = model.Parameters[parameter.Name];
-					if (providedParameter != null)
+                    string[] providedParameter = null;
+				    model.Parameters.TryGetValue(parameter.Name, out providedParameter);
+                    if (providedParameter != null)
 					{
 						foreach (var value in providedParameter.Where(x => !String.IsNullOrEmpty(x)))
 						{
