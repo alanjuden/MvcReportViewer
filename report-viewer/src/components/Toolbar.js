@@ -12,10 +12,11 @@ import Last from 'material-ui/svg-icons/av/skip-next'
 import Left from 'material-ui/svg-icons/hardware/keyboard-arrow-left'
 import Right from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import {setPage} from "../actions/index";
+import FileSaver from 'file-saver';
 
 const downaloadFormats = [
-    'WORD',
-    'EXCEL',
+    'DOCX',
+    'XLSX',
     'PDF',
     'CSV',
     'MHTML',
@@ -24,22 +25,18 @@ const downaloadFormats = [
 ];
 
 const makeNavigate = (type, apiUrl, reportPath, data) => {
-    let queryAddition = '';
-    for (let prop in data) {
-        if(data[prop]){
-            var value = data[prop];
-            if(value instanceof Date){
-                value = value.toDateString();
-            }
-
-            queryAddition += `&${prop}=${value}`;
-        }
-    }
-
-    console.log(queryAddition);
-
     return () => {
-        window.open(`${apiUrl}/ExportReport/?reportPath=${reportPath}&format=${type}${queryAddition}`, '_blank')
+        fetch(`${apiUrl}/ExportReport/?reportPath=${reportPath}&format=${type}`, {
+            credentials: 'same-origin',
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(function(response) {
+            console.log(response);
+            return response.blob();
+        }).then(function(blob) {
+            FileSaver.saveAs(blob, `${reportPath.replace('/', '')}.${type}`);
+        })
     }
 };
 

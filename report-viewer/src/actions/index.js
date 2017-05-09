@@ -26,6 +26,7 @@ async function executeReport(getState, body) {
     const response = await fetch(
         `${getState().options.apiUrl}?reportPath=${getState().options.reportPath}&page=${getState().page}`, {
             method: 'POST',
+            mode: 'cors',
             headers: {
                 "Content-type": "application/json"
             },
@@ -35,11 +36,10 @@ async function executeReport(getState, body) {
     return await response.json();
 }
 
-export function loadReport(apiUrl, reportPath) {
+export function loadReport(apiUrl, reportPath, body = {}) {
     return async function (dispatch, getState) {
-        dispatch(initOptions(apiUrl, reportPath))
+        dispatch(initOptions(apiUrl, reportPath));
         dispatch(startLoad());
-        let body = {};
         dispatch(endLoad(await executeReport(getState, body)))
     }
 }

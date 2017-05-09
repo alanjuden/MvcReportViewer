@@ -30,5 +30,6 @@ ReactDOM.render(
     targetElem
 );
 
-store.dispatch(loadReport(targetElem.dataset.reportApiUrl, targetElem.dataset.reportPath));
+console.log(JSON.parse(targetElem.dataset.params));
+store.dispatch(loadReport(targetElem.dataset.reportApiUrl, targetElem.dataset.reportPath, JSON.parse(targetElem.dataset.params)));
 
