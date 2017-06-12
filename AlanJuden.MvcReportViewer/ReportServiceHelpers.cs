@@ -48,17 +48,20 @@ namespace AlanJuden.MvcReportViewer
 				var tempParameters = new List<ReportService.ParameterValue>();
 				foreach (var parameter in parameters)
 				{
-					var providedParameter = model.Parameters[parameter.Name];
-					if (providedParameter != null)
+					if (model.Parameters.ContainsKey(parameter.Name))
 					{
-						foreach (var value in providedParameter.Where(x => !String.IsNullOrEmpty(x)))
+						var providedParameter = model.Parameters[parameter.Name];
+						if (providedParameter != null)
 						{
-							tempParameters.Add(new ReportService.ParameterValue()
+							foreach (var value in providedParameter.Where(x => !String.IsNullOrEmpty(x)))
 							{
-								Label = parameter.Name,
-								Name = parameter.Name,
-								Value = value
-							});
+								tempParameters.Add(new ReportService.ParameterValue()
+								{
+									Label = parameter.Name,
+									Name = parameter.Name,
+									Value = value
+								});
+							}
 						}
 					}
 				}
