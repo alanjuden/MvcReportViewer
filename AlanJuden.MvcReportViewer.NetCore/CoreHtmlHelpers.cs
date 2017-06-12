@@ -166,7 +166,7 @@ namespace AlanJuden.MvcReportViewer
 				sb.AppendLine("					<div class='Parameter col-md-6 col-sm-12'>");
 				if (reportParameter.PromptUser || model.ShowHiddenParameters)
 				{
-					sb.AppendLine($"						<div class='col-sm-4'><label for='{reportParameter.Name}'>{reportParameter.Prompt}</label></div>");
+					sb.AppendLine($"						<div class='col-sm-4'><label for='{reportParameter.Name}'>{reportParameter.Prompt.HtmlEncode()}</label></div>");
 
 					sb.AppendLine("							<div class='col-sm-8'>");
 					if (reportParameter.ValidValues != null && reportParameter.ValidValues.Any())
@@ -174,7 +174,7 @@ namespace AlanJuden.MvcReportViewer
 						sb.AppendLine($"						<select id='{reportParameter.Name}' name='{reportParameter.Name}' class='form-control' {(reportParameter.MultiValue == true ? "multiple='multiple'" : "")}>");
 						foreach (var value in reportParameter.ValidValues)
 						{
-							sb.AppendLine($"							<option value='{value.Value}' {(reportParameter.SelectedValues.Contains(value.Value) ? "selected='selected'" : "")}>{value.Label}</option>");
+							sb.AppendLine($"							<option value='{value.Value}' {(reportParameter.SelectedValues.Contains(value.Value) ? "selected='selected'" : "")}>{value.Label.HtmlEncode()}</option>");
 						}
 						sb.AppendLine($"						</select>");
 					}
