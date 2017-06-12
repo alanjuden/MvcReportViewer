@@ -37,6 +37,7 @@ namespace AlanJuden.MvcReportViewer.ExampleWebsite.NetCore
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +61,12 @@ namespace AlanJuden.MvcReportViewer.ExampleWebsite.NetCore
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
+
+            app.UseCors(corsPolicyBuilder => corsPolicyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseMvc(routes =>
             {
