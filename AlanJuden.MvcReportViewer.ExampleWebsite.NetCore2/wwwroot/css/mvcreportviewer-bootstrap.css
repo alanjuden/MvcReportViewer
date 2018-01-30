@@ -1,0 +1,127 @@
+﻿/* Beginning of CSS for spinning the icon */
+.gly-spin {
+	-webkit-animation: spin 2s infinite linear;
+	-moz-animation: spin 2s infinite linear;
+	-o-animation: spin 2s infinite linear;
+	animation: spin 2s infinite linear;
+}
+@-moz-keyframes spin {
+	0% {
+	-moz-transform: rotate(0deg);
+	}
+	100% {
+	-moz-transform: rotate(359deg);
+	}
+}
+@-webkit-keyframes spin {
+	0% {
+	-webkit-transform: rotate(0deg);
+	}
+	100% {
+	-webkit-transform: rotate(359deg);
+	}
+}
+@-o-keyframes spin {
+	0% {
+	-o-transform: rotate(0deg);
+	}
+	100% {
+	-o-transform: rotate(359deg);
+	}
+}
+@keyframes spin {
+	0% {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+	}
+	100% {
+	-webkit-transform: rotate(359deg);
+	transform: rotate(359deg);
+	}
+}
+/* End of CSS for spinning the icon */
+
+.highlight {
+	background-color: yellow;
+}
+
+.ReportViewer {
+	border: 1px solid grey;
+	margin-top: 4em;	/* adjusts the top of the report viewer to not be hidden from this default ASP.NET MVC Template - you probably don't need this */
+}
+
+.ReportViewerHeader {
+	background-color: #ECE9D8;
+	width: 100%;
+	display: inline-block;
+	padding: 0em;
+}
+
+.ReportViewerError { 
+	color: #ff0000; 
+	font-weight: bold; 
+	font-size: 120%; 
+	margin: 1em;
+}
+
+.ReportViewerInformation {
+	color: #000; 
+	font-weight: bold; 
+	font-size: 120%; 
+	margin: 1em;
+}
+
+.ParametersContainer, .ReportViewerToolbar {
+	border-bottom: 1px solid #ccc;
+}
+
+.Parameters {
+	border-right: 1px solid #ccc;
+	padding: .5em;
+}
+
+.Parameter .col-sm-4 {
+	text-align: right;
+	padding-top: .5em;
+}
+
+.Parameter input, .Parameter select {
+	width: 100% !important;
+}
+
+.PagerNumbers .form-control {
+	width: 4em;
+}
+
+.SearchText .form-control {
+	width: 6em;
+}
+
+.SearchText {
+	margin: auto 2em;
+}
+
+.SearchText a {
+	float: none !important;
+}
+
+.PagerNumbers {
+	padding: 0em .5em;
+	display: inline-block;
+}
+
+.ReportViewerPager {
+	padding: .5em 0em;
+}
+
+.ReportViewerViewReport {
+	padding-top: .5em;
+}
+
+span a[disabled=disabled] {
+	color: grey;
+}
+
+.loadingContainer i {
+    margin-right: .5em;
+}
