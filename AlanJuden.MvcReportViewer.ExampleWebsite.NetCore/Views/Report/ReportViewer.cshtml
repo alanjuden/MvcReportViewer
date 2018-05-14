@@ -190,7 +190,7 @@
 				if (data != undefined && data != null) {
 					$('#ReportViewerCurrentPage').val(data.CurrentPage);
 					$('#ReportViewerTotalPages').text(data.TotalPages);
-					$('.ReportViewerContent').html(data.Content);
+					$('.ReportViewerContent').html($.parseHTML(data.Content));
 
 					if (data.TotalPages <= 1) {
 						$('.FirstPage').attr('disabled', true);
