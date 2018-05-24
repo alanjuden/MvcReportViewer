@@ -12,7 +12,7 @@ namespace AlanJuden.MvcReportViewer.NetCore2
 {
 	public abstract class BaseReportController : Controller
 	{
-		protected abstract System.Net.ICredentials NetworkCredentials { get; }
+        protected abstract System.Net.ICredentials NetworkCredentials { get; }
 		protected abstract string ReportServerUrl { get; }
 
 		/// <summary>

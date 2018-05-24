@@ -17,11 +17,32 @@ namespace AlanJuden.MvcReportViewer.NetCore2.Models
 		/// </summary>
 		public string ReportPath { get; set; }
 
-		/// <summary>
-		/// This indicates whether or not to replace image urls from your report server to image urls on your local site to act as a proxy
-		/// *useful if your report server is not accessible publicly*
-		/// </summary>
-		public bool UseCustomReportImagePath { get; set; }
+        private string route;
+
+        public string Route
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(route))
+                {
+                    return "/Report";
+                }
+
+                else
+                {                    
+                    return route;
+                }
+            }
+
+            set { route = value; }
+        }
+
+
+        /// <summary>
+        /// This indicates whether or not to replace image urls from your report server to image urls on your local site to act as a proxy
+        /// *useful if your report server is not accessible publicly*
+        /// </summary>
+        public bool UseCustomReportImagePath { get; set; }
 
 		/// <summary>
 		/// This is the local URL on your website that will handle returning images for you, be sure to use the replacement variable {0} in your string to represent the original image URL that came from your report server.
