@@ -54,7 +54,7 @@ namespace AlanJuden.MvcReportViewer
 		public bool EnablePaging { get; set; }
 		public int? Timeout { get; set; }
 		public System.ServiceModel.HttpClientCredentialType ClientCredentialType { get; set; }
-
+		public ReportingService2005SoapClient SoapClient { get; set; }
 		public ReportViewerModel()
 		{
 			this.Parameters = new Dictionary<string, string[]>();
