@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Description;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,16 +63,25 @@ namespace AlanJuden.MvcReportViewer
 			}
 		}
 
+        private static void _addBehaviors<T>(System.ServiceModel.ClientBase<T> client, List<IEndpointBehavior> behaviors) where T : class
+        {
+            foreach(IEndpointBehavior behavior in behaviors)
+            {
+                client.Endpoint.EndpointBehaviors.Add(behavior);
+            }
+        }
+
 		public static ReportService.ReportParameter[] GetReportParameters(ReportViewerModel model, bool forRendering = false)
 		{
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportService2005.asmx";
 
 			var basicHttpBinding = _initializeHttpBinding(url, model);
-            service = (model.SoapClient ?? new ReportService.ReportingService2005SoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url)));
+            var service = new ReportService.ReportingService2005SoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
             service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
+            _addBehaviors(service, model.Behaviors);
 
-			string historyID = null;
+            string historyID = null;
 			ReportService.ParameterValue[] values = null;
 			ReportService.DataSourceCredentials[] rsCredentials = null;
 			
@@ -120,9 +130,10 @@ namespace AlanJuden.MvcReportViewer
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
 
 			var basicHttpBinding = _initializeHttpBinding(url, model);
-            service = (model.SoapClient ?? new ReportService.ReportingService2005SoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url)));
-			service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
+            var service = new ReportServiceExecution.ReportExecutionServiceSoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
+            service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
+            _addBehaviors(service, model.Behaviors);
 
 			var exportResult = new ReportExportResult();
 			exportResult.CurrentPage = (startPage.ToInt32() <= 0 ? 1 : startPage.ToInt32());
@@ -253,11 +264,12 @@ namespace AlanJuden.MvcReportViewer
 			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportExecution2005.asmx";
 
 			var basicHttpBinding = _initializeHttpBinding(url, model);
-            service = (model.SoapClient ?? new ReportService.ReportingService2005SoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url)));
+            var service = new ReportServiceExecution.ReportExecutionServiceSoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
             service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
+            _addBehaviors(service, model.Behaviors);
 
-			var definedReportParameters = GetReportParameters(model, true);
+            var definedReportParameters = GetReportParameters(model, true);
 
 			if (!startPage.HasValue || startPage == 0)
 			{

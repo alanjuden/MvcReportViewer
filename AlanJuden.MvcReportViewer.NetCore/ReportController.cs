@@ -2,15 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using System.Net.Http;
 
 namespace AlanJuden.MvcReportViewer
 {
-	public abstract class ReportController : Controller
+    public abstract class ReportController : Controller
 	{
 		protected abstract System.Net.ICredentials NetworkCredentials { get; }
 		protected abstract string ReportServerUrl { get; }
@@ -39,7 +37,9 @@ namespace AlanJuden.MvcReportViewer
 			}
 		}
 
-		protected virtual int? Timeout
+        protected virtual List<System.ServiceModel.Description.IEndpointBehavior> Behaviors { get { return null; } }
+
+        protected virtual int? Timeout
 		{
 			get
 			{
@@ -229,6 +229,7 @@ namespace AlanJuden.MvcReportViewer
 			model.AjaxLoadInitialReport = this.AjaxLoadInitialReport;
 			model.ClientCredentialType = this.ClientCredentialType;
 			model.Credentials = this.NetworkCredentials;
+            model.Behaviors = this.Behaviors;
 
 			var enablePagingResult = _getRequestValue(request, "ReportViewerEnablePaging");
 			if (enablePagingResult.HasValue())
