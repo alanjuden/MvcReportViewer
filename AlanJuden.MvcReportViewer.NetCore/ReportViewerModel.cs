@@ -58,6 +58,9 @@ namespace AlanJuden.MvcReportViewer
 		public int? Timeout { get; set; }
 		public System.ServiceModel.HttpClientCredentialType ClientCredentialType { get; set; }
 		public List<IEndpointBehavior> Behaviors { get; set; }
+
+        public bool LogonBeforeQuery { get; set; }
+
         public ReportViewerModel()
 		{
 			this.Parameters = new Dictionary<string, string[]>();

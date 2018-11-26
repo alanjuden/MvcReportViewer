@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel.Description;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlanJuden.MvcReportViewer
 {
-	public static class ReportServiceHelpers
+    public static class ReportServiceHelpers
 	{
 		private static System.ServiceModel.HttpBindingBase _initializeHttpBinding(string url, ReportViewerModel model)
 		{
@@ -71,15 +69,25 @@ namespace AlanJuden.MvcReportViewer
             }
         }
 
-		public static ReportService.ReportParameter[] GetReportParameters(ReportViewerModel model, bool forRendering = false)
+        public static ReportService.ReportParameter[] GetReportParameters(ReportViewerModel model, bool forRendering = false)
 		{
-			var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportService2005.asmx";
+            var url = model.ServerUrl + ((model.ServerUrl.ToSafeString().EndsWith("/")) ? "" : "/") + "ReportService2005.asmx";
 
 			var basicHttpBinding = _initializeHttpBinding(url, model);
             var service = new ReportService.ReportingService2005SoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
             service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
-			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
+            service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
             _addBehaviors(service, model.Behaviors);
+
+
+
+            if (model.LogonBeforeQuery)
+            {
+                service.LogonUserAsync("", "", "").Wait();
+            }
+
+            //service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
+			//service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
 
             string historyID = null;
 			ReportService.ParameterValue[] values = null;
@@ -132,7 +140,7 @@ namespace AlanJuden.MvcReportViewer
 			var basicHttpBinding = _initializeHttpBinding(url, model);
             var service = new ReportServiceExecution.ReportExecutionServiceSoapClient(basicHttpBinding, new System.ServiceModel.EndpointAddress(url));
             service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
-			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
+            service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
             _addBehaviors(service, model.Behaviors);
 
 			var exportResult = new ReportExportResult();
@@ -199,7 +207,11 @@ namespace AlanJuden.MvcReportViewer
 			try
 			{
 				string historyID = null;
-				executionInfo = service.LoadReportAsync(model.ReportPath, historyID).Result;
+                if (model.LogonBeforeQuery)
+                {
+                    service.LogonUserAsync("", "", "").Wait();
+                }
+                executionInfo = service.LoadReportAsync(model.ReportPath, historyID).Result;
 				executionHeader.ExecutionID = executionInfo.ExecutionID;
 				
 				var executionParameterResult = service.SetReportParameters(executionInfo.ExecutionID, reportParameters.ToArray(), "en-us").Result;
@@ -268,6 +280,11 @@ namespace AlanJuden.MvcReportViewer
             service.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 			service.ClientCredentials.Windows.ClientCredential = (System.Net.NetworkCredential)(model.Credentials ?? System.Net.CredentialCache.DefaultCredentials);
             _addBehaviors(service, model.Behaviors);
+
+            if (model.LogonBeforeQuery)
+            {
+                service.LogonUserAsync("", "", "").Wait();
+            }
 
             var definedReportParameters = GetReportParameters(model, true);
 

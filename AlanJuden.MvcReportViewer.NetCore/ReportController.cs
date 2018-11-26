@@ -39,6 +39,8 @@ namespace AlanJuden.MvcReportViewer
 
         protected virtual List<System.ServiceModel.Description.IEndpointBehavior> Behaviors { get { return null; } }
 
+        protected virtual bool LogonBeforeQuery { get { return false; } }
+
         protected virtual int? Timeout
 		{
 			get
@@ -230,8 +232,9 @@ namespace AlanJuden.MvcReportViewer
 			model.ClientCredentialType = this.ClientCredentialType;
 			model.Credentials = this.NetworkCredentials;
             model.Behaviors = this.Behaviors;
+            model.LogonBeforeQuery = this.LogonBeforeQuery;
 
-			var enablePagingResult = _getRequestValue(request, "ReportViewerEnablePaging");
+            var enablePagingResult = _getRequestValue(request, "ReportViewerEnablePaging");
 			if (enablePagingResult.HasValue())
 			{
 				model.EnablePaging = enablePagingResult.ToBoolean();
