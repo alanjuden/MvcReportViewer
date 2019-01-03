@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AlanJuden.MvcReportViewer.ReportService;
+using AlanJuden.MvcReportViewer.ReportServiceExecution;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Description;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,8 +57,11 @@ namespace AlanJuden.MvcReportViewer
 		public bool EnablePaging { get; set; }
 		public int? Timeout { get; set; }
 		public System.ServiceModel.HttpClientCredentialType ClientCredentialType { get; set; }
+		public List<IEndpointBehavior> Behaviors { get; set; }
 
-		public ReportViewerModel()
+        public bool LogonBeforeQuery { get; set; }
+
+        public ReportViewerModel()
 		{
 			this.Parameters = new Dictionary<string, string[]>();
 			this.ViewMode = ReportViewModes.View;
