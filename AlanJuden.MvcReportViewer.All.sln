@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlanJuden.MvcReportViewer", "AlanJuden.MvcReportViewer\AlanJuden.MvcReportViewer.csproj", "{319C1302-6331-4D5C-9558-D1E2B3F1DB82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlanJuden.MvcReportViewer.ExampleWebsite", "AlanJuden.MvcReportViewer.ExampleWebsite\AlanJuden.MvcReportViewer.ExampleWebsite.csproj", "{57614A74-760D-4A0F-A272-3929E2CB2BDB}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AlanJuden.MvcReportViewer.ExampleWebsite.NetCore", "AlanJuden.MvcReportViewer.ExampleWebsite.NetCore\AlanJuden.MvcReportViewer.ExampleWebsite.NetCore.xproj", "{EB181C1B-6A81-4DC3-93EA-8A16A007FA87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlanJuden.MvcReportViewer.ExampleWebsite.NetCore", "AlanJuden.MvcReportViewer.ExampleWebsite.NetCore\AlanJuden.MvcReportViewer.ExampleWebsite.NetCore.csproj", "{EB181C1B-6A81-4DC3-93EA-8A16A007FA87}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AlanJuden.MvcReportViewer.NetCore", "AlanJuden.MvcReportViewer.NetCore\AlanJuden.MvcReportViewer.NetCore.xproj", "{D911DA30-3023-413C-97AC-E4901B1CEB7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlanJuden.MvcReportViewer.NetCore", "AlanJuden.MvcReportViewer.NetCore\AlanJuden.MvcReportViewer.NetCore.csproj", "{D911DA30-3023-413C-97AC-E4901B1CEB7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +36,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {81C0B8E5-E148-4C0E-B790-4AFBF6343251}
 	EndGlobalSection
 EndGlobal

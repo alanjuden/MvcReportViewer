@@ -19,20 +19,20 @@ namespace AlanJuden.MvcReportViewer
 
 			sb.AppendLine("<form class='form-inline' id='frmReportViewer' name='frmReportViewer'>");
 			sb.AppendLine("	<div class='ReportViewer row'>");
-			sb.AppendLine("		<div class='ReportViewerHeader row'>");
-			sb.AppendLine("			<div class='ParametersContainer col-sm-12'>");
+			sb.AppendLine("		<div class='ReportViewerHeader col-sm-11'>");
+			sb.AppendLine("			<div class='ParametersContainer row'>");
 			sb.AppendLine("				<div class='Parameters col-sm-10'>");
 
 			sb.AppendLine(ParametersToHtmlString(contentData.Parameters, model));
 
 			sb.AppendLine("				</div>");
 
-			sb.AppendLine("				<div class='ReportViewerViewReport col-sm-2 text-center'>");
+			sb.AppendLine("				<div class='ReportViewerViewReport col-sm-1 text-center'>");
 			sb.AppendLine("					<button type='button' class='btn btn-primary ViewReport'>View Report</button>");
 			sb.AppendLine("				</div>");
 			sb.AppendLine("			</div>");
 
-			sb.AppendLine("			<div class='ReportViewerToolbar row'>");
+			sb.AppendLine("			<div class='ReportViewerToolbar col-sm-12'>");
 			sb.AppendLine("				<div class='ReportViewerPager'>");
 			sb.AppendLine("					<div class='btn-toolbar'>");
 
@@ -81,7 +81,7 @@ namespace AlanJuden.MvcReportViewer
 			sb.AppendLine("				</div>");
 			sb.AppendLine("			</div>");
 			sb.AppendLine("		</div>");
-			sb.AppendLine("		<div class='ReportViewerContentContainer row'>");
+			sb.AppendLine("		<div class='ReportViewerContentContainer col-sm-12'>");
 			sb.AppendLine("			<div class='ReportViewerContent'>");
 
 			if (model.IsMissingAnyRequiredParameterValues(contentData.Parameters))
