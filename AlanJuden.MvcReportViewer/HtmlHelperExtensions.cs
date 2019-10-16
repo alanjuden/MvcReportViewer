@@ -206,12 +206,12 @@ namespace AlanJuden.MvcReportViewer
 					}
 				}
 
-				sb.AppendLine($"			<input type='hidden' id='ReportViewerEnablePaging' name='ReportViewerEnablePaging' value='{model.EnablePaging}' />");
 
 				sb.AppendLine("					</div>");
 			}
+            sb.AppendLine($"			<input type='hidden' id='ReportViewerEnablePaging' name='ReportViewerEnablePaging' value='{model.EnablePaging}' />");
 
-			return sb.ToString();
+            return sb.ToString();
 		}
 	}
 }
