@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustCSharp.ReportViewer", "src\JustCSharp.ReportViewer\JustCSharp.ReportViewer.csproj", "{E1DD4BF7-C46C-4A89-A90D-F5F4D9D1D86C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustCSharp.ReportViewer.ASPNetCore", "src\JustCSharp.ReportViewer.ASPNetCore\JustCSharp.ReportViewer.ASPNetCore.csproj", "{A3B63F68-0CDB-4942-9CC1-ED705C14E66A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustCSharp.ReportViewer.ASPNetCoreExample", "examples\JustCSharp.ReportViewer.ASPNetCoreExample\JustCSharp.ReportViewer.ASPNetCoreExample.csproj", "{31173B24-A463-4260-9E34-7F9B3DE54D10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1DD4BF7-C46C-4A89-A90D-F5F4D9D1D86C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1DD4BF7-C46C-4A89-A90D-F5F4D9D1D86C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1DD4BF7-C46C-4A89-A90D-F5F4D9D1D86C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1DD4BF7-C46C-4A89-A90D-F5F4D9D1D86C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3B63F68-0CDB-4942-9CC1-ED705C14E66A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B63F68-0CDB-4942-9CC1-ED705C14E66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B63F68-0CDB-4942-9CC1-ED705C14E66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B63F68-0CDB-4942-9CC1-ED705C14E66A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31173B24-A463-4260-9E34-7F9B3DE54D10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31173B24-A463-4260-9E34-7F9B3DE54D10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31173B24-A463-4260-9E34-7F9B3DE54D10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31173B24-A463-4260-9E34-7F9B3DE54D10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

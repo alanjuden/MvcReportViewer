@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Title></Title>
+        <Description>ReportViewer for SSRS</Description>
+        <PackageProjectUrl>https://github.com/ductran95/JustCSharp.ReportViewer</PackageProjectUrl>
+        <PackageLicenseUrl></PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/ductran95/JustCSharp.ReportViewer</RepositoryUrl>
+        <RepositoryType></RepositoryType>
+        <Authors>Duc Tran</Authors>
+        <Company>JustCSharp</Company>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.ServiceModel.Http" Version="4.8.1" />
+      <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0" />
+    </ItemGroup>
+
+</Project>
